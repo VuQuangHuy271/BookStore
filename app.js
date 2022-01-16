@@ -15,6 +15,9 @@ app.get('/login', async (req,res)=>{
 app.get('/loginAdmin', async (req,res)=>{
     res.render('loginAdmin')
 }) 
+app.get('/register', async (req,res)=>{
+    res.render('register')
+}) 
 app.get('/', async (req,res)=>{
     const results = await getAllDocuments("Products")
     res.render('index', {products : results})
