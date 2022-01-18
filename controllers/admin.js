@@ -3,7 +3,7 @@ const { insertObject , getAllDocuments, FindDocumentsByname} = require('../datab
 const router = express.Router()
 //neu request la: /admin
 router.get('/',(req,res)=>{
-    res.render('adminIndexx')
+    res.render('adminIndex')
 })
 
 //neu request la: /admin/addUser
