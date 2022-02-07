@@ -12,6 +12,9 @@ app.use('/admin', adminController)
 app.get('/login', async (req,res)=>{
     res.render('login')
 }) 
+app.get('/updateProfile', async (req,res)=>{
+    res.render('updateProfile')
+}) 
 app.get('/loginAdmin', async (req,res)=>{
     res.render('loginAdmin')
 }) 
