@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-const { insertObject , getAllDocuments, FindDocumentsByname} = require('./databaseHandler')
+const { insertObject , getAllDocuments, getIndexDocuments, FindDocumentsByname} = require('./databaseHandler')
 app.set('view engine', 'hbs')
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static('public'))
@@ -11,6 +11,14 @@ app.use('/admin', adminController)
 
 app.get('/login', async (req,res)=>{
     res.render('login')
+}) 
+
+app.get('/inforProduct', async (req,res)=>{
+    res.render('inforProduct')
+}) 
+app.get('/allProduct', async (req,res)=>{
+    const results = await getAllDocuments("Products")
+    res.render('allProduct', {products : results})
 }) 
 app.get('/loginAdmin', async (req,res)=>{
     res.render('loginAdmin')
@@ -53,7 +61,7 @@ app.post('/register', async (req,res)=>{
     res.redirect('login')
 }) 
 app.get('/', async (req,res)=>{
-    const results = await getAllDocuments("Products")
+    const results = await getIndexDocuments("Products")
     res.render('index', {products : results})
 })
 

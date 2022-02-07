@@ -15,9 +15,16 @@ async function insertObject(collectionName,objectToInsert){
     console.log("Gia tri id moi duoc insert la: ", newObject.insertedId.toHexString());
 }
 
+async function getIndexDocuments(collectionName) {
+    const dbo = await getDatabase()
+    const results = await dbo.collection("Products").find({}).sort({name:1}).limit(6).toArray()   
+    // const results = await dbo.collection(collectionName).find({}).toArray()
+    return results
+}
+
 async function getAllDocuments(collectionName) {
     const dbo = await getDatabase()
-    //const results = await dbo.collection("Products").find({}).sort({name:1}).limit(7).toArray()   
+    // const results = await dbo.collection("Products").find({}).sort({name:1}).limit(5).toArray()   
     const results = await dbo.collection(collectionName).find({}).toArray()
     return results
 }
@@ -28,4 +35,4 @@ async function FindDocumentsByname(value) {
     const results = await dbo.collection("Products").find({name: value}).toArray()
     return results
 }
-module.exports = {insertObject, getAllDocuments, FindDocumentsByname}
+module.exports = {insertObject, getAllDocuments, FindDocumentsByname, getIndexDocuments}

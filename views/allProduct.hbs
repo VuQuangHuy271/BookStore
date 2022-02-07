@@ -44,13 +44,10 @@
 
             <div class="container"> 
                 <div class="Product">
-                    <div class="card-body" style="text-align: center;">
-                        <p class="card-text" style="color: red; font-size: 1.5rem;">Sản Phẩm Nổi Bật</p>
-                    </div>
                     <div class="mt-4">
                         <div class="row">
                             {{#each products}}                   
-                                <div class="card" style="width: 15rem; align-items: center; background-color: rgba(236, 238, 93, 0.288)">
+                                <div class="card" style="width: 18rem; align-items: center; background-color: rgba(236, 238, 93, 0.288)">
                                     <img src="{{picURL}}" class="card-img-top" style="width: 10rem; height: 10rem;" alt="..."> 
                                     {{!-- margin-left: 25px; --}}
                                     <div class="card-body">
@@ -58,91 +55,17 @@
                                     </div>
                                     <div class="card-body">
                                         <a href="#"><p class="card-text">Mua Ngay</p></a>
-                                        {{!-- <p style="font-size: 20px;" class="card-text">Description </p>
-                                        <p class="card-text">{{description}}</p>   --}}
                                     </div>
 
                                     <div class="card-body">
-                                        <a href="/inforProduct"><p class="card-text">Chi Tiết</p></a>
+                                        <a href="/inforProduct"><p class="card-text">Thêm Thông Tin Sản Phẩm</p></a>
                                     </div>
                                 </div>
                             {{/each}}
-                                <div class="card-body" style="text-align: center;">
-                                        <a href="allProduct" style="color: red; font-size: 1.5rem;"><p class="card-text">Xem Thêm Sản Phẩm</p></a>
-                                </div>
-
                         </div>
                     </div>
                 </div>
             </div>
-        
-        {{!-- <div class="content">
-            <div class="container">
-                <div class="card">
-                    <dir class="row">
-                        <div class="col-sm-6 col-md-4">
-                            {{#each products}}     
-                                <div class="thumbnail">               
-                                    <img src="{{picURL}}" alt="" width="150" height="100" href="#" class="img-responsive">
-                                    <div class="card-body">
-                                    <h3 class="card-title">Product Detail</h3>
-                                    <p class="card-text">Product name: {{products.name}} </p>
-                                    <p class="card-text">Price: {{price}} </p>
-                                    <p class="card-text">Description </p>
-                                    <p class="card-text">{{description}}</p>
-                                    <a href="#" class="btn btn-success pull-right">Buy now</a>
-                                    </div> 
-                                </div>                
-                            {{/each}} 
-                        </div> 
-                        <div class="col-sm-6 col-md-4">
-                            {{#each products}}     
-                                <div class="thumbnail">               
-                                    <img src="{{picURL}}" alt="" width="150" height="100" href="#" class="img-responsive">
-                                    <div class="card-body">
-                                    <h3 class="card-title">Product Detail</h3>
-                                    <p class="card-text">Product name: {{name}} </p>
-                                    <p class="card-text">Price: {{price}} </p>
-                                    <p class="card-text">Description </p>
-                                    <p class="card-text">{{description}}</p>
-                                    <a href="#" class="btn btn-success pull-right">Buy now</a>
-                                    </div> 
-                                </div>                
-                            {{/each}} 
-                        </div> 
-
-                        <div class="col-sm-6 col-md-4">
-                            {{#each products}}     
-                                <div class="thumbnail">               
-                                    <img src="{{picURL}}" alt="" width="150" height="100" href="#" class="img-responsive">
-                                    <div class="card-body">
-                                    <h3 class="card-title">Product Detail</h3>
-                                    <p class="card-text">Product name: {{name}} </p>
-                                    <p class="card-text">Price: {{price}} </p>
-                                    <p class="card-text">Description </p>
-                                    <p class="card-text">{{description}}</p>
-                                    <a href="#" class="btn btn-success pull-right">Buy now</a>
-                                    </div> 
-                                </div>                
-                            {{/each}} 
-                        </div> 
-                    </dir>          
-                </div>
-
-                
-                
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination">
-                        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">...</a></li>
-                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                    </ul>
-                </nav>
-            </div>          
-        </div> --}}
 
     </div>
     
