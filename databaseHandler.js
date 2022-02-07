@@ -54,5 +54,5 @@ async function checkUserRole(emailI,passI){
         return user.role;
     }
 }
-module.exports = {insertObject, getAllDocuments, FindDocumentsByname, checkUserRole, FindDocumentsByEmail}
+module.exports = {insertObject, getAllDocuments, FindDocumentsByname, checkUserRole, FindDocumentsByEmail, getIndexDocuments}
 

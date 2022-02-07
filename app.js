@@ -2,7 +2,7 @@ const express = require('express')
 const session = require('express-session')
 const app = express()
 const { insertObject , getAllDocuments, getIndexDocuments, FindDocumentsByname} = require('./databaseHandler')
-const { insertObject , getAllDocuments, FindDocumentsByname, checkUserRole, FindDocumentsByEmail} = require('./databaseHandler')
+// const { insertObject , getAllDocuments, FindDocumentsByname, checkUserRole, FindDocumentsByEmail} = require('./databaseHandler')
 app.set('view engine', 'hbs')
 app.use(express.urlencoded({ extended: true }))
 app.use(session({ secret: '12121213@adas', cookie: { maxAge: 180 * 60 *1000 }, saveUninitialized: false, resave: false }))
@@ -81,9 +81,9 @@ app.post('/register', async (req,res)=>{
 app.get('/', async (req,res)=>{
     const results = await getIndexDocuments("Products")
     res.render('index', {products : results})
-    customer = req.session["Customer"]
-    const results = await getAllDocuments("Products")   
-    res.render('index', {products : results, customerI: customer})
+    // customer = req.session["Customer"]
+    // const results = await getAllDocuments("Products")   
+    // res.render('index', {products : results, customerI: customer})
 })
 
 
