@@ -42,7 +42,7 @@ async function checkUserRole(emailI,passI){
     }else if(user.role == "Customer"){
         return "Customer";
     }else{
-        return "Admin";
+        return user.role;
     }
 }
 module.exports = {insertObject, getAllDocuments, FindDocumentsByname, checkUserRole, FindDocumentsByEmail}
