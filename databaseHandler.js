@@ -36,3 +36,23 @@ async function FindDocumentsByname(value) {
     return results
 }
 module.exports = {insertObject, getAllDocuments, FindDocumentsByname, getIndexDocuments}
+
+async function FindDocumentsByEmail(value) {
+    const dbo = await getDatabase()
+    const results = await dbo.collection("Users").findOne({email: value})
+    return results
+}
+
+async function checkUserRole(emailI,passI){
+    const dbo = await getDatabase()
+    const user= await dbo.collection("Users").findOne({email: emailI, password: passI});
+    if (user == null) {
+        return "-1"
+    }else if(user.role == "Customer"){
+        return "Customer";
+    }else{
+        return user.role;
+    }
+}
+module.exports = {insertObject, getAllDocuments, FindDocumentsByname, checkUserRole, FindDocumentsByEmail}
+
