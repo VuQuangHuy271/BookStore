@@ -2,7 +2,7 @@ const express = require('express')
 const session = require('express-session')
 const app = express()
 
-const { insertObject , getAllDocuments, FindDocumentsByname, checkUserRole, FindDocumentsByEmail} = require('./databaseHandler')
+const { insertObject , getAllDocuments, FindDocumentsByname, checkUserRole, FindDocumentsByEmail, FindDocumentsByPhone} = require('./databaseHandler')
 app.set('view engine', 'hbs')
 app.use(express.urlencoded({ extended: true }))
 app.use(session({ secret: '12121213@adas', cookie: { maxAge: 180 * 60 *1000 }, saveUninitialized: false, resave: false }))
@@ -53,15 +53,31 @@ app.post('/register', async (req,res)=>{
     const passwordInput = req.body.txtPassword
     const confirmInput = req.body.txtConfirm
     const roleC = "Customer";
-    // if(isNaN(phoneInput)==true){
-    //     const errorMessage = "Gia phai la so!"
-    //     const oldValues = {name: nameInput, phone: phoneInput, email: emailInput, gender: genderInput, city: cityInput, country: countryInput, password: passwordInput} 
-    //     res.render('register', {error: errorMessage , oldValues:oldValues})
-    //     return;
-    // }
+    const resultEmail = await FindDocumentsByEmail(emailInput)
+    const resultPhone = await FindDocumentsByPhone(phoneInput)
+    if(isNaN(phoneInput)==true){
+        const errorMessage = "Số điện thoại của bạn không đúng định dạng!!"
+        const oldValues = {name: nameInput, phone: phoneInput, email: emailInput, gender: genderInput, city: cityInput, country: countryInput, password: passwordInput, role: roleC}
+        res.render('register', {errorNa: errorMessage , oldValues:oldValues})
+        return;
+    }
+    if(resultPhone != null)
+    {
+        errorEmail = "Phone number đã được sử dụng"
+        const oldValues = {name: nameInput, phone: phoneInput, email: emailInput, gender: genderInput, city: cityInput, country: countryInput, password: passwordInput, role: roleC}
+        res.render('register', {errorPhones: errorEmail,  oldValues:oldValues})
+        return;
+    }
+    if(resultEmail != null)
+    {
+        errorEmail = "Email đã được sử dụng"
+        const oldValues = {name: nameInput, phone: phoneInput, email: emailInput, gender: genderInput, city: cityInput, country: countryInput, password: passwordInput, role: roleC}
+        res.render('register', {errorE: errorEmail,  oldValues:oldValues})
+        return;
+    }
     if(phoneInput.length >= 12 || phoneInput.length < 9)
     {
-        const errorDes="do dai cua chuoi tu 9 - 12";
+        const errorDes="do dai cua sdt tu 10 - 12";
         const oldValues = {name: nameInput, phone: phoneInput, email: emailInput, gender: genderInput, city: cityInput, country: countryInput, password: passwordInput, role: roleC} 
         res.render('register', {errorD: errorDes,  oldValues:oldValues})
         return;

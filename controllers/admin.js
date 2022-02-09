@@ -45,4 +45,12 @@ router.get('/view', async (req,res)=>{
         }
     }  
 })
+
+function requiresLoginAdmin(req,res,next){
+    if(req.session["Admin"]){
+        return next()
+    }else{
+        res.redirect('/login')
+    }
+}
 module.exports = router;

@@ -29,13 +29,13 @@ async function getAllDocuments(collectionName) {
     return results
 }
 
+
 async function FindDocumentsByname(value) {
     const dbo = await getDatabase()
     //const results = await dbo.collection("Products").find({}).sort({name:1}).limit(7).toArray()   
-    const results = await dbo.collection("Products").find({name: value}).toArray()
+    const results = await dbo.collection("Products").findOne({name: value})
     return results
 }
-module.exports = {insertObject, getAllDocuments, FindDocumentsByname, getIndexDocuments}
 
 async function FindDocumentsByEmail(value) {
     const dbo = await getDatabase()
@@ -43,9 +43,15 @@ async function FindDocumentsByEmail(value) {
     return results
 }
 
+async function FindDocumentsByPhone(value) {
+    const dbo = await getDatabase()
+    const results = await dbo.collection("Users").findOne({phone: value})
+    return results
+}
+
 async function checkUserRole(emailI,passI){
     const dbo = await getDatabase()
-    const user= await dbo.collection("Users").findOne({email: emailI, password: passI});
+    const user= await dbo.collection("Users").find({email: emailI, password: passI});
     if (user == null) {
         return "-1"
     }else if(user.role == "Customer"){
@@ -54,5 +60,5 @@ async function checkUserRole(emailI,passI){
         return user.role;
     }
 }
-module.exports = {insertObject, getAllDocuments, FindDocumentsByname, checkUserRole, FindDocumentsByEmail, getIndexDocuments}
+module.exports = {insertObject, getAllDocuments, FindDocumentsByname, checkUserRole, FindDocumentsByEmail, getIndexDocuments, FindDocumentsByPhone}
 
