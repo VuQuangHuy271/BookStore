@@ -20,6 +20,12 @@ app.get('/updateProfile', async (req,res)=>{
 app.get('/addBooks', async (req,res)=>{
     res.render('addBooks')
 }) 
+app.get('/editBooks', async (req,res)=>{
+    res.render('editBooks')
+}) 
+app.get('/adminViewBooks', async (req,res)=>{
+    res.render('adminViewBooks')
+}) 
 app.get('/inforProduct', async (req,res)=>{
     res.render('inforProduct')
 }) 
