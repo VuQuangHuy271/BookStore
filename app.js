@@ -14,6 +14,12 @@ app.use('/admin', adminController)
 app.get('/login', async (req,res)=>{
     res.render('login')
 }) 
+app.get('/updateProfile', async (req,res)=>{
+    res.render('updateProfile')
+}) 
+app.get('/addBooks', async (req,res)=>{
+    res.render('addBooks')
+}) 
 app.get('/inforProduct', async (req,res)=>{
     res.render('inforProduct')
 }) 
