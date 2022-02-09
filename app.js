@@ -5,7 +5,7 @@ const app = express()
 const { insertObject , getAllDocuments, FindDocumentsByname, checkUserRole, FindDocumentsByEmail, FindDocumentsByPhone} = require('./databaseHandler')
 app.set('view engine', 'hbs')
 app.use(express.urlencoded({ extended: true }))
-app.use(session({ secret: '12121213@adas', cookie: { maxAge: 180 * 60 *1000 }, saveUninitialized: false, resave: false }))
+app.use(session({ secret: '12121121@adas', cookie: { maxAge: 60000 }, saveUninitialized: false, resave: false }))
 app.use(express.static('public'))
 const adminController = require('./controllers/admin')
 //cac request co chua /admin se di den controller admin
@@ -112,7 +112,12 @@ app.get('/', async (req,res)=>{
     res.render('index', {products : results, customerI: customer})
 })
 
-
+app.get('/updateProfile',requiresLoginCustomer, async (req,res)=>{
+    customer = req.session["Customer"]
+    const email = FindDocumentsByEmail(Customer.email)
+    const results = FindDocumentsByEmail(email)
+    res.render('updateProfile', {profile: results, customerI: customer})
+})
 function requiresLoginCustomer(req,res,next){
     if(req.session["Customer"]){
         return next()
