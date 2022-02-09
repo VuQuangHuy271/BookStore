@@ -20,7 +20,7 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#">Home</a>
+                                <a class="nav-link active" aria-current="page" href='/'>Home</a>
                             </li>
                             {{!-- <li class="nav-item">
                                 <a class="nav-link" href="#">Link</a>
@@ -47,18 +47,20 @@
                     <div class="mt-4">
                         <div class="row">
                             {{#each products}}                   
-                                <div class="card" style="width: 18rem; align-items: center; background-color: rgba(236, 238, 93, 0.288)">
+                                <div class="card" style="width: 15rem; align-items: center; background-color: rgba(236, 238, 93, 0.288)">
                                     <img src="{{picURL}}" class="card-img-top" style="width: 10rem; height: 10rem;" alt="..."> 
                                     {{!-- margin-left: 25px; --}}
                                     <div class="card-body">
-                                        <h5 class="card-title">{{name}}</h5>
+                                        <a href="/inforProduct" style="color: rgb(29, 27, 27); font-size: 1.5rem;"><p class="card-text">{{name}}</p></a>
+
                                     </div>
                                     <div class="card-body">
                                         <a href="#"><p class="card-text">Mua Ngay</p></a>
                                     </div>
 
                                     <div class="card-body">
-                                        <a href="/inforProduct"><p class="card-text">Thêm Thông Tin Sản Phẩm</p></a>
+                                        <a href="#"><p class="card-text">Thêm Vào Giỏ Hàng</p></a>
+                                        
                                     </div>
                                 </div>
                             {{/each}}
