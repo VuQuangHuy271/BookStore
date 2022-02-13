@@ -69,7 +69,16 @@
                     <div class="form-group">
                         <label for="price">Price:</label>
                         <input required="true" type="number" class="form-control" name="txtPrice" value="{{product.price}}">
-					</div>                  
+					</div>         
+                    <div class="form-group">
+                        <label for="category">Category:</label>
+                        <Select id="txtCategory" name="txtCategory">
+                        <option value="Do choi">Truyện tranh</option>
+                        <option value="Dung cu hoc tap">Hóa học</option>
+                        </Select>    
+                        {{!-- <input  type="text" class="form-control" name="txtCategory" value="{{oldValues.category}}"> --}}
+                        <span style="color: red;">{{error}}</span> 
+					</div>                    
                     <div class="form-group">
                         <label for="name">Picture URL:</label>
                         <input required="true" type="text" class="form-control" name="txtPicURL" value="{{product.picURL}}">
