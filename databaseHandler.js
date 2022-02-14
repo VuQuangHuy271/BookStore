@@ -51,7 +51,7 @@ async function FindDocumentsByPhone(value) {
 
 async function checkUserRole(emailI,passI){
     const dbo = await getDatabase()
-    const user= await dbo.collection("Users").find({email: emailI, password: passI});
+    const user= await dbo.collection("Users").findOne({email: emailI, password: passI});
     if (user == null) {
         return "-1"
     }else if(user.role == "Customer"){
