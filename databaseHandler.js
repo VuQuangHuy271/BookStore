@@ -29,6 +29,11 @@ async function getAllDocuments(collectionName) {
     return results
 }
 
+async function getInforDocuments(collectionName, id) {
+    const dbo = await getDatabase()
+    const results = await dbo.collection(collectionName).find({ _id: ObjectId(id)}).toArray()
+}
+
 
 async function FindDocumentsByname(value) {
     const dbo = await getDatabase()
@@ -60,5 +65,4 @@ async function checkUserRole(emailI,passI){
         return user.role;
     }
 }
-module.exports = {insertObject, getAllDocuments, FindDocumentsByname, checkUserRole, FindDocumentsByEmail, getIndexDocuments, FindDocumentsByPhone}
-
+module.exports = {insertObject, getAllDocuments,FindDocumentsByname,getInforDocuments, checkUserRole, FindDocumentsByEmail, getIndexDocuments, FindDocumentsByPhone}
