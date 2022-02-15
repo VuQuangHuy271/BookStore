@@ -2,7 +2,7 @@ const express = require('express')
 const session = require('express-session')
 const app = express()
 
-const { insertObject , getAllDocuments, FindDocumentsByname, checkUserRole, FindDocumentsByEmail, FindDocumentsByPhone} = require('./databaseHandler')
+const { insertObject , getAllDocuments, FindDocumentsByname,getInforDocuments, checkUserRole, FindDocumentsByEmail, FindDocumentsByPhone} = require('./databaseHandler')
 app.set('view engine', 'hbs')
 app.use(express.urlencoded({ extended: true }))
 app.use(session({ secret: '12121121@adas', cookie: { maxAge: 60000 }, saveUninitialized: false, resave: false }))
@@ -16,10 +16,42 @@ app.get('/updateProfile', async (req,res)=>{
     res.render('updateProfile')
 }) 
 app.get('/addBooks', async (req,res)=>{
+    // const nameInput = req.body.txtName
+    // const priceInput = req.body.txtPrice
+    // const picURLInput = req.body.txtPicURL
+    // const categoryInput = req.body.txtCategory
+
+    // if(isNaN(priceInput)==true){
+    //     //Khong phai la so, bao loi, ket thuc ham
+    //     const errorMessage = "Price must be number!"
+    //     const oldValues = {name:nameInput,price:priceInput,picURL:picURLInput, category: categoryInput}
+    //     res.render('addBooks',{error:errorMessage,oldValues:oldValues})
+    //     return;
+    // }
+    // const newP = {name:nameInput,price:Number.parseFloat(priceInput),
+    //                 picURL:picURLInput, category: categoryInput}
+    
+    // const collectionName = "Products"
+    // //const collectionName = "Products_backup"
+    // insertObjectToCollection(collectionName,newP)   
+    // res.redirect('adminViewBooks')
     res.render('addBooks')
 }) 
+app.get('/editBooks', async (req,res)=>{
+    res.render('editBooks')
+}) 
+app.get('/adminViewBooks', async (req,res)=>{
+    // //1. lay du lieu tu Mongo
+    // const collectionName = "Products"
+    // const results = await getAllDocumentsFromCollection(collectionName)
+    // //2. hien thi du lieu qua HBS
+    // res.render('adminViewBooks',{products:results})
+    res.render('adminViewBooks')
+}) 
 app.get('/inforProduct', async (req,res)=>{
-    res.render('inforProduct')
+    const results = await getInforDocuments("Products")
+    res.render('inforProduct', {products : results})
+
 }) 
 app.get('/allProduct', async (req,res)=>{
     const results = await getAllDocuments("Products")
@@ -121,6 +153,10 @@ function requiresLoginCustomer(req,res,next){
         res.redirect('/login')
     }
 }
+app.get('/adminViewBooks',async (req,res)=>{
+
+})
+
 
 const PORT = process.env.PORT || 5000
 app.listen(PORT)
