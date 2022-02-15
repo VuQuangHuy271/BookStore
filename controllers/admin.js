@@ -1,5 +1,5 @@
 const express = require('express')
-const { insertObject , getAllDocuments, FindDocumentsByname} = require('../databaseHandler')
+const { insertObject , getAllDocuments, FindDocumentsByname, FindDocumentsByid} = require('../databaseHandler')
 const router = express.Router()
 //neu request la: /admin
 router.get('/',(req,res)=>{
@@ -18,8 +18,7 @@ router.get('/addBooks', async (req,res)=>{
 }) 
 router.get('/editBooks', async (req,res)=>{
     const id = req.query.id  
-    const dbo = await getDatabase()
-    const productToEdit= await dbo.collection("Products").findOne({_id:ObjectId(id)})
+    const productToEdit = await FindDocumentsByid("products", id)
     res.render('editBooks', {product : productToEdit})
 }) 
 
