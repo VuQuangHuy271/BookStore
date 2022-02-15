@@ -106,7 +106,7 @@ app.get('/', async (req,res)=>{
 
 app.get('/updateProfile',requiresLoginCustomer, async (req,res)=>{
     customer = req.session["Customer"]
-    const email = FindDocumentsByEmail(Customer.email)
+    const email = FindDocumentsByEmail(customer.email)
     const results = FindDocumentsByEmail(email)
     res.render('updateProfile', {profile: results, customerI: customer})
 })
