@@ -158,6 +158,10 @@ app.get('/adminViewBooks',async (req,res)=>{
 
 })
 
+app.get('/Cart',requiresLoginCustomer, async (req,res)=>{
+    res.render('Cart')
+})
+
 
 const PORT = process.env.PORT || 5000
 app.listen(PORT)
