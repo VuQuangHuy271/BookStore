@@ -106,7 +106,7 @@ app.get('/', async (req,res)=>{
 
 app.get('/updateProfile',requiresLoginCustomer, async (req,res)=>{
     customer = req.session["Customer"]
-    const email = FindDocumentsByEmail(Customer.email)
+    const email = FindDocumentsByEmail(customer.email)
     const results = FindDocumentsByEmail(email)
     res.render('updateProfile', {profile: results, customerI: customer})
 })
@@ -141,6 +141,10 @@ app.post('/product',async (req,res)=>{
     const result = await dbo.collection("Products").insertOne(newP)
     console.log("The newly inserted id value is: ", result.insertedId.toHexString());
     res.redirect('/view')
+})
+
+app.get('/Cart',requiresLoginCustomer, async (req,res)=>{
+    res.render('Cart')
 })
 
 
