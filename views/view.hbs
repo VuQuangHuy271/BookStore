@@ -34,25 +34,25 @@
 <body>
     <ul class="nav nav-tabs">
 		<li class="nav-item">
-			<a class="nav-link active" href="/view">View Product</a>
+			<a class="nav-link active" href="view">View Product</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link " href="#">View Category</a>
+			<a class="nav-link " href="#">View User</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link" href="#">View Admin</a>
+			<a class="nav-link" href="#">View Order</a>
 		</li>
 		
         <li class="nav-item">
 			<a class="nav-link" href="/">Log out</a>
         </li>
 	</ul>
-    
+
     <h1>View all product</h1>  
 
         <nav class="navbar navbar-expand-lg navbar-light bg-light" >
             <div class="container-fluid">     
-                <div style="text-align: right;"><a href="/insert" ><button class="btn btn-success" >Add</button></a> </div>     
+                <div style="text-align: right;"><a href="addBooks" ><button class="btn btn-success" >Add</button></a> </div>     
                 <form class="d-flex ">                       
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" style="width: 190px" name="txtSearch"> 
 
@@ -87,7 +87,7 @@
             <td>{{price}} VND</td>
             <td>{{description}}</td>
             <td><img src="{{picURL}}" alt="" width="150" height="100"></td>
-            <td><a href="/edit?id={{_id}}">Edit</a></td>
+            <td><a href="editBooks?id={{_id}}">Edit</a></td>
             <td><a onclick="ConfirmDelete()" href="/delete?id={{_id}}">Delete </a></td>
             
         {{/each}}
@@ -100,10 +100,10 @@
 <script>
     function ConfirmDelete()
 {
-  var x = confirm("Are you sure you want to delete?");
-  if (x)
-      return true;
-  else
+    var x = confirm("Are you sure you want to delete?");
+    if (x)
+        return true;
+    else
     return false;
 }
 
