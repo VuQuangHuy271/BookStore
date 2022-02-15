@@ -10,6 +10,31 @@ router.get('/',(req,res)=>{
 router.get('/addUser',(req,res)=>{
     res.render('addUser')
 })
+router.get('/updateProfile', async (req,res)=>{
+    res.render('updateProfile')
+}) 
+router.get('/addBooks', async (req,res)=>{
+    res.render('addBooks')
+}) 
+router.get('/editBooks', async (req,res)=>{
+    const id = req.query.id  
+    const dbo = await getDatabase()
+    const productToEdit= await dbo.collection("Products").findOne({_id:ObjectId(id)})
+    res.render('editBooks', {product : productToEdit})
+}) 
+
+router.post('/edit',async (req,res)=>{
+    //lấy dữ liệu 
+    const nameEdit = req.body.txtName
+    const priceEdit = req.body.txtPrice
+    const picURLEdit = req.body.txtPicURL
+    const descriptionEdit=req.body.txtDescription
+    //lấy id để từ id đó sửa các giá trị khác
+    const id = req.body.txtId
+    const dbo = await getDatabase()
+    await dbo.collection("Products").updateOne({_id : ObjectId(id)}, { $set: {name : nameEdit, price : priceEdit, picURL : picURLEdit, description : descriptionEdit} })
+    res.redirect('/view')
+})
 
 //Submit add User
 router.post('/addUser',(req,res)=>{
