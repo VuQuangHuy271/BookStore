@@ -2,7 +2,7 @@ const express = require('express')
 const session = require('express-session')
 const app = express()
 
-const { insertObject , getAllDocuments, FindDocumentsByname,getInforDocuments, checkUserRole, FindDocumentsByEmail, FindDocumentsByPhone} = require('./databaseHandler')
+const { insertObject , getAllDocuments, FindDocumentsByname,FindDocumentsByid, checkUserRole, FindDocumentsByEmail, FindDocumentsByPhone} = require('./databaseHandler')
 app.set('view engine', 'hbs')
 app.use(express.urlencoded({ extended: true }))
 app.use(session({ secret: '12121121@adas', cookie: { maxAge: 60000 }, saveUninitialized: false, resave: false }))
@@ -49,7 +49,8 @@ app.get('/adminViewBooks', async (req,res)=>{
     res.render('adminViewBooks')
 }) 
 app.get('/inforProduct', async (req,res)=>{
-    const results = await getInforDocuments("Products")
+    const id = req.query.id
+    const results = await FindDocumentsByid("Products", id)
     res.render('inforProduct', {products : results})
 
 }) 
