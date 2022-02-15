@@ -13,16 +13,16 @@ router.get('/addUser',(req,res)=>{
 
 //Submit add User
 router.post('/addUser',(req,res)=>{
-    const name = req.body.txtName
-    const role = req.body.Role
-    const pass= req.body.txtPassword
+    const name = req.body.txtRAName
+    const role = req.body.txtRole
+    const pass= req.body.txtRAPass
     const objectToInsert = {
-        userName: name,
-        role:role,
+        email: name,
+        role: role,
         password: pass
     }
     insertObject("Users",objectToInsert)
-    res.render('adminIndex')
+    res.redirect('/')
 })
 router.get('/view', async (req,res)=>{
     //1.lay du lieu 

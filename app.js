@@ -11,9 +11,7 @@ const adminController = require('./controllers/admin')
 //cac request co chua /admin se di den controller admin
 app.use('/admin', adminController)
 
-app.get('/login', async (req,res)=>{
-    res.render('login')
-}) 
+ 
 app.get('/updateProfile', async (req,res)=>{
     res.render('updateProfile')
 }) 
@@ -27,10 +25,14 @@ app.get('/allProduct', async (req,res)=>{
     const results = await getAllDocuments("Products")
     res.render('allProduct', {products : results})
 })
+app.get('/login', async (req,res)=>{
+    res.render('login')
+})
 app.post('/login',async (req,res)=>{
     const emailInput = req.body.txtLName
     const passInput = req.body.txtLPass
     const role = await checkUserRole(emailInput, passInput)
+    console.log(role)
     if (role == -1) {
         res.redirect('/login')
     } else if (role == "Customer"){
