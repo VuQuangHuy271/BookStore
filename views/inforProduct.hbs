@@ -10,15 +10,15 @@
     <div class="container"> 
     <div class="Product">
         <div class="descreption">
-            {{#each products}}
             {{!-- <div style="display: none;">{{_id}}</div> --}}
                     <div class="img-infor">
-                    <img src="{{picURL}}" class="card-img-top" style="width: 10rem; height: 10rem;" alt="...">
+                    <img src="{{products.picURL}}" class="card-img-top" style="width: 10rem; height: 10rem;" alt="..."> 
                     </div>
-            <h2>Name: {{name}}</h2>
-            <p>Giá tiền: {{price}}</p>
+            <h2>Name:  {{products.name}}</h2>
+            <p>Giá tiền: {{products.price}}</p>
             <p>Nơi Sản xuất: </p>
-            {{/each}}
+        </div>
+        <div>
         </div>
     </div>
 </div>
