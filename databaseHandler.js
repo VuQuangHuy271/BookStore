@@ -29,6 +29,12 @@ async function getAllDocuments(collectionName) {
     return results
 }
 
+async function DeleteDocumentsByid(collectionName, id) {
+    const dbo = await getDatabase()
+    const results = await dbo.collection(collectionName).deleteOne({ _id: ObjectId(id)})
+    return results
+}
+
 
 async function FindDocumentsByname(value) {
     const dbo = await getDatabase()
@@ -51,7 +57,7 @@ async function FindDocumentsByPhone(value) {
 
 async function checkUserRole(emailI,passI){
     const dbo = await getDatabase()
-    const user= await dbo.collection("Users").find({email: emailI, password: passI});
+    const user= await dbo.collection("Users").findOne({email: emailI, password: passI});
     if (user == null) {
         return "-1"
     }else if(user.role == "Customer"){
@@ -60,5 +66,4 @@ async function checkUserRole(emailI,passI){
         return user.role;
     }
 }
-module.exports = {insertObject, getAllDocuments, FindDocumentsByname, checkUserRole, FindDocumentsByEmail, getIndexDocuments, FindDocumentsByPhone}
-
+module.exports = {insertObject, getAllDocuments,FindDocumentsByname,DeleteDocumentsByid, checkUserRole, FindDocumentsByEmail, getIndexDocuments, FindDocumentsByPhone}

@@ -2,7 +2,7 @@ const express = require('express')
 const session = require('express-session')
 const app = express()
 
-const { insertObject , getAllDocuments, FindDocumentsByname, checkUserRole, FindDocumentsByEmail, FindDocumentsByPhone} = require('./databaseHandler')
+const { insertObject , getAllDocuments, FindDocumentsByname,FindDocumentsByid, checkUserRole, FindDocumentsByEmail, FindDocumentsByPhone} = require('./databaseHandler')
 app.set('view engine', 'hbs')
 app.use(express.urlencoded({ extended: true }))
 app.use(session({ secret: '12121121@adas', cookie: { maxAge: 60000 }, saveUninitialized: false, resave: false }))
@@ -11,32 +11,24 @@ const adminController = require('./controllers/admin')
 //cac request co chua /admin se di den controller admin
 app.use('/admin', adminController)
 
-app.get('/login', async (req,res)=>{
-    res.render('login')
-}) 
-app.get('/updateProfile', async (req,res)=>{
-    res.render('updateProfile')
-}) 
-app.get('/addBooks', async (req,res)=>{
-    res.render('addBooks')
-}) 
-app.get('/editBooks', async (req,res)=>{
-    res.render('editBooks')
-}) 
-app.get('/adminViewBooks', async (req,res)=>{
-    res.render('adminViewBooks')
-}) 
 app.get('/inforProduct', async (req,res)=>{
-    res.render('inforProduct')
+    const id = req.query.id
+    const results = await FindDocumentsByid("Products", id)
+    res.render('inforProduct', {products : results})
+
 }) 
 app.get('/allProduct', async (req,res)=>{
     const results = await getAllDocuments("Products")
     res.render('allProduct', {products : results})
 })
+app.get('/login', async (req,res)=>{
+    res.render('login')
+})
 app.post('/login',async (req,res)=>{
     const emailInput = req.body.txtLName
     const passInput = req.body.txtLPass
     const role = await checkUserRole(emailInput, passInput)
+    console.log(role)
     if (role == -1) {
         res.redirect('/login')
     } else if (role == "Customer"){
@@ -114,7 +106,7 @@ app.get('/', async (req,res)=>{
 
 app.get('/updateProfile',requiresLoginCustomer, async (req,res)=>{
     customer = req.session["Customer"]
-    const email = FindDocumentsByEmail(Customer.email)
+    const email = FindDocumentsByEmail(customer.email)
     const results = FindDocumentsByEmail(email)
     res.render('updateProfile', {profile: results, customerI: customer})
 })
@@ -125,6 +117,36 @@ function requiresLoginCustomer(req,res,next){
         res.redirect('/login')
     }
 }
+
+app.post('/product',async (req,res)=>{   
+    const nameInput = req.body.txtName
+    const priceInput = req.body.txtPrice
+    const descriptionInput = req.body.txtDescription
+    const picURLInput = req.body.txtPicURL
+    if(isNaN(priceInput)==true){
+        const errorMessage = "Gia phai la so!"
+        const oldValues = {name:nameInput,price:priceInput,picURL:picURLInput, description: descriptionInput} 
+        res.render('addBooks', {error:errorMessage , oldValues:oldValues})
+        return;
+    }
+    if(descriptionInput.length >= 10 || descriptionInput.length < 0)
+    {
+        const errorDes="do dai cua chuoi tu 0 - 10";
+        const oldValues = {name:nameInput,price:priceInput,picURL:picURLInput, description: descriptionInput}
+        res.render('addBooks', {errorD : errorDes,  oldValues:oldValues})
+        return;
+    }
+    const newP = {name: nameInput,price:Number.parseFloat(priceInput), description: descriptionInput, picURL:picURLInput}
+    const dbo = await getDatabase()
+    const result = await dbo.collection("Products").insertOne(newP)
+    console.log("The newly inserted id value is: ", result.insertedId.toHexString());
+    res.redirect('/view')
+})
+
+app.get('/Cart',requiresLoginCustomer, async (req,res)=>{
+    res.render('Cart')
+})
+
 
 const PORT = process.env.PORT || 5000
 app.listen(PORT)

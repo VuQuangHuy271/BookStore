@@ -1,5 +1,5 @@
 const express = require('express')
-const { insertObject , getAllDocuments, FindDocumentsByname} = require('../databaseHandler')
+const { insertObject , getAllDocuments, FindDocumentsByname, FindDocumentsByid, DeleteDocumentsByid} = require('../databaseHandler')
 const router = express.Router()
 //neu request la: /admin
 router.get('/',(req,res)=>{
@@ -10,19 +10,71 @@ router.get('/',(req,res)=>{
 router.get('/addUser',(req,res)=>{
     res.render('addUser')
 })
+router.get('/updateProfile', async (req,res)=>{
+    res.render('updateProfile')
+}) 
+router.get('/delete',async (req,res)=>{
+    const id = req.query.id
+    DeleteDocumentsByid("Products", id)
+        res.redirect('/admin/view')
+    
+})
+router.get('/addBooks', async (req,res)=>{
+    res.render('addBooks')
+}) 
+router.post('/addbook',async (req,res)=>{   
+    const nameInput = req.body.txtName
+    const priceInput = req.body.txtPrice
+    const descriptionInput = req.body.txtDescription
+    const picURLInput = req.body.txtPicURL
+    if(isNaN(priceInput)==true){
+        const errorMessage = "Gia phai la so!"
+        const oldValues = {name:nameInput,price:priceInput,picURL:picURLInput, description: descriptionInput} 
+        res.render('addBooks', {error:errorMessage , oldValues:oldValues})
+        return;
+    }
+    if(descriptionInput.length >= 100 || descriptionInput.length < 0)
+    {
+        const errorDes="do dai cua chuoi tu 0 - 10";
+        const oldValues = {name:nameInput,price:priceInput,picURL:picURLInput, description: descriptionInput}
+        res.render('addBooks', {errorD : errorDes,  oldValues:oldValues})
+        return;
+    }
+    const newP = {name: nameInput,price:Number.parseFloat(priceInput), description: descriptionInput, picURL:picURLInput}
+    insertObject("Products",newP)
+    res.redirect('/admin/view')
+})
+router.get('/editBooks', async (req,res)=>{
+    const id = req.query.id  
+    const productToEdit = await FindDocumentsByid("Products", id)
+    res.render('editBooks', {product : productToEdit})
+}) 
+
+router.post('/editBooks',async (req,res)=>{
+    //lấy dữ liệu 
+    const nameEdit = req.body.txtName
+    const priceEdit = req.body.txtPrice
+    const picURLEdit = req.body.txtPicURL
+    const descriptionEdit=req.body.txtDescription
+    //lấy id để từ id đó sửa các giá trị khác
+    const id = req.body.txtId
+    const dbo = await FindDocumentsByid("Products", id)
+    await dbo.collection("Products").updateOne({_id : ObjectId(id)}, { $set: {name : nameEdit, price : priceEdit, picURL : picURLEdit, description : descriptionEdit} })
+    res.redirect('/view')
+})
 
 //Submit add User
 router.post('/addUser',(req,res)=>{
-    const name = req.body.txtName
-    const role = req.body.Role
-    const pass= req.body.txtPassword
+    const name = req.body.txtRAName
+    const role = req.body.txtRole
+    const pass= req.body.txtRAPass
     const objectToInsert = {
-        userName: name,
-        role:role,
+        email: name,
+        role: role,
         password: pass
     }
     insertObject("Users",objectToInsert)
-    res.render('adminIndex')
+    res.redirect('/')
 })
 router.get('/view', async (req,res)=>{
     //1.lay du lieu 
