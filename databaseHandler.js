@@ -36,10 +36,10 @@ async function FindDocumentsByid(collectionName, id) {
 }
 
 
-async function FindDocumentsByname(value) {
+async function FindAllDocumentsByName(value) {
     const dbo = await getDatabase()
     //const results = await dbo.collection("Products").find({}).sort({name:1}).limit(7).toArray()   
-    const results = await dbo.collection("Products").findOne({name: value})
+    const results = await dbo.collection("Products").find({name: value}).limit(10).toArray() 
     return results
 }
 
@@ -66,4 +66,4 @@ async function checkUserRole(emailI,passI){
         return user.role;
     }
 }
-module.exports = {insertObject, getAllDocuments,FindDocumentsByname,FindDocumentsByid, checkUserRole, FindDocumentsByEmail, getIndexDocuments, FindDocumentsByPhone}
+module.exports = {insertObject, getAllDocuments,FindAllDocumentsByName,FindDocumentsByid, checkUserRole, FindDocumentsByEmail, getIndexDocuments, FindDocumentsByPhone}

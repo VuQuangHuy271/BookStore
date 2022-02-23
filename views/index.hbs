@@ -26,13 +26,14 @@
                             </li>
                         </ul>
                         <form class="container" style="display: flex;">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="txtSearch">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
+                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="txtSearchHome" >
+                            <button class="btn btn-outline-success" type="submit" >Search</button>
                             <a href="#" class="btn btn-info btn-lg">
-                            <span class="glyphicon glyphicon-shopping-cart"></span> Shopping Cart
+                                
+                            <span class="glyphicon glyphicon-shopping-cart"></span> Cart
                             </a>                  
                         </form>
-
+                            
                         {{#if customerI}}
                         <div class="dropdown">
                         <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">welcome {{customerI.name}}
@@ -54,7 +55,7 @@
                 </div>
             </nav>
         </div>
-            
+            <span style="color: red;">{{messSH}}</span>
             <div class="container"> 
                 <div class="Product">
                     <div class="card-body" style="text-align: center;">
@@ -89,7 +90,7 @@
 
     </div>
     
-    <div class="footer" style="background: rgba(182, 226, 243, 0.856);>
+    <div class="footer" style="background: rgba(182, 226, 243, 0.856);">
         <!-- Footer -->
         <footer class="text-center text-lg-start bg-light text-muted">
             <!-- Section: Social media -->
@@ -196,6 +197,21 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     
-    
+ {{!-- <script type="text/javascript">
+    $(document).ready(function(){
+
+    $("#search").on("click", function(e){
+        var mess = {{messSH}};
+        if(mess == null) { 
+            return;
+        }else{
+            alert('Số điện thoại của bạn không đúng định dạng!');
+            return;
+        }
+            
+        });        
+    });​ --}}
+</script>   
 </body>
+
 </html>
