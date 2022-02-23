@@ -29,9 +29,9 @@ async function getAllDocuments(collectionName) {
     return results
 }
 
-async function FindDocumentsByid(collectionName, id) {
+async function DeleteDocumentsByid(collectionName, id) {
     const dbo = await getDatabase()
-    const results = await dbo.collection(collectionName).findOne({ _id: ObjectId(id)})
+    const results = await dbo.collection(collectionName).deleteOne({ _id: ObjectId(id)})
     return results
 }
 
@@ -66,4 +66,6 @@ async function checkUserRole(emailI,passI){
         return user.role;
     }
 }
+
 module.exports = {insertObject, getAllDocuments,FindAllDocumentsByName,FindDocumentsByid, checkUserRole, FindDocumentsByEmail, getIndexDocuments, FindDocumentsByPhone}
+
