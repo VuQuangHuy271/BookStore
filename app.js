@@ -2,7 +2,7 @@ const express = require('express')
 const session = require('express-session')
 const app = express()
 
-const { insertObject , getAllDocuments, FindDocumentsByname,FindDocumentsByid, checkUserRole, FindDocumentsByEmail, FindDocumentsByPhone} = require('./databaseHandler')
+const { insertObject , getAllDocuments, FindAllDocumentsByName,FindDocumentsByid, checkUserRole, FindDocumentsByEmail, FindDocumentsByPhone} = require('./databaseHandler')
 app.set('view engine', 'hbs')
 app.use(express.urlencoded({ extended: true }))
 app.use(session({ secret: '12121121@adas', cookie: { maxAge: 60000 }, saveUninitialized: false, resave: false }))
@@ -100,8 +100,24 @@ app.post('/register', async (req,res)=>{
 }) 
 app.get('/', async (req,res)=>{
     customer = req.session["Customer"]
-    const results = await getAllDocuments("Products")   
-    res.render('index', {products : results, customerI: customer})
+    const searchInputH = req.query.txtSearchHome
+    const collectionName = "Products"
+    const results = await getAllDocuments(collectionName)
+    const resultSearch = await FindAllDocumentsByName(searchInputH)
+    //2.hien thu du lieu qua HBS
+    if(searchInputH == null)
+    {         
+        res.render('index', {products: results})       
+    }else{   
+        if(resultSearch.length != 0)
+        {                 
+            res.render('index', {products : resultSearch, customerI: customer})
+        }else {
+            const messageSH = " Khong tim thay"
+            res.render('index', {products: results, messSH : messageSH, customerI: customer})
+        }
+    }   
+    
 })
 
 app.get('/updateProfile',requiresLoginCustomer, async (req,res)=>{

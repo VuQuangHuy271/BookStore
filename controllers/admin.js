@@ -1,5 +1,7 @@
 const express = require('express')
+
 const { insertObject , getAllDocuments, FindDocumentsByname, FindDocumentsByid, DeleteDocumentsByid} = require('../databaseHandler')
+
 const router = express.Router()
 //neu request la: /admin
 router.get('/',(req,res)=>{
@@ -81,7 +83,7 @@ router.get('/view', async (req,res)=>{
     const searchInput = req.query.txtSearch
     const collectionName = "Products"
     const results = await getAllDocuments(collectionName)
-    const resultSearch = await FindDocumentsByname(searchInput)
+    const resultSearch = await FindAllDocumentsByName(searchInput)
     //2.hien thu du lieu qua HBS
     if(searchInput == null)
     {   
