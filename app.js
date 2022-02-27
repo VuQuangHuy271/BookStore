@@ -41,9 +41,7 @@ app.post('/login',async (req,res)=>{
         res.redirect('/')
     }
 })
-app.get('/loginAdmin', async (req,res)=>{
-    res.render('loginAdmin')
-}) 
+
 app.get('/register', async (req,res)=>{
     res.render('register')
 }) 
@@ -107,7 +105,7 @@ app.get('/', async (req,res)=>{
     //2.hien thu du lieu qua HBS
     if(searchInputH == null)
     {         
-        res.render('index', {products: results})       
+        res.render('index', {products: results, customerI: customer})       
     }else{   
         if(resultSearch.length != 0)
         {                 

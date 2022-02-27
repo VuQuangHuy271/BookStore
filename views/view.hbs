@@ -42,9 +42,18 @@
 		<li class="nav-item">
 			<a class="nav-link" href="#">View Order</a>
 		</li>
-		
-        <li class="nav-item">
-			<a class="nav-link" href="/">Log out</a>
+		<li class="nav-item">
+            {{#if admin}}
+                <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"> {{admin.name}}: {{admin.role}}
+                    <span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                        <li><a href="updateProfile">Edit Profile</a></li>
+                        <li><a href="#">CSS</a></li>
+                        <li><a href="#">Log out</a></li>
+                    </ul>
+                </div>
+            {{/if}}
         </li>
 	</ul>
 
@@ -61,7 +70,7 @@
                 </form>
             </div>
         </nav>    
-    <span>{{messS}}</span>
+    <span style="color: red;">{{messS}}</span>
     <table class="table table-bordered table-hover" >
         <tr>
             <th width='50px'>No</th>

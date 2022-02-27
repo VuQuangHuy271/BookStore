@@ -67,5 +67,5 @@ async function checkUserRole(emailI,passI){
     }
 }
 
-module.exports = {insertObject, getAllDocuments,FindAllDocumentsByName,FindDocumentsByid, checkUserRole, FindDocumentsByEmail, getIndexDocuments, FindDocumentsByPhone}
+module.exports = {insertObject, getAllDocuments,FindAllDocumentsByName,DeleteDocumentsByid, checkUserRole, FindDocumentsByEmail, getIndexDocuments, FindDocumentsByPhone}
 
