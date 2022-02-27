@@ -35,6 +35,11 @@ async function DeleteDocumentsByid(collectionName, id) {
     return results
 }
 
+async function FindDocumentsById(collectionName, id) {
+    const dbo = await getDatabase()
+    const results = await dbo.collection(collectionName).findOne({ _id: ObjectId(id)})
+    return results
+}
 
 async function FindAllDocumentsByName(value) {
     const dbo = await getDatabase()
@@ -48,6 +53,7 @@ async function FindDocumentsByEmail(value) {
     const results = await dbo.collection("Users").findOne({email: value})
     return results
 }
+
 
 async function FindDocumentsByPhone(value) {
     const dbo = await getDatabase()
@@ -67,5 +73,5 @@ async function checkUserRole(emailI,passI){
     }
 }
 
-module.exports = {insertObject, getAllDocuments,FindAllDocumentsByName,DeleteDocumentsByid, checkUserRole, FindDocumentsByEmail, getIndexDocuments, FindDocumentsByPhone}
+module.exports = {insertObject, getAllDocuments,FindAllDocumentsByName,DeleteDocumentsByid, checkUserRole, FindDocumentsByEmail, getIndexDocuments, FindDocumentsByPhone, FindDocumentsById}
 

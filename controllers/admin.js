@@ -1,6 +1,6 @@
 const express = require('express')
 
-const { insertObject , getAllDocuments, FindAllDocumentsByName, FindDocumentsByid, DeleteDocumentsByid, checkUserRole, FindDocumentsByEmail} = require('../databaseHandler')
+const { insertObject , getAllDocuments, FindAllDocumentsByName, FindDocumentsById, DeleteDocumentsByid, checkUserRole, FindDocumentsByEmail} = require('../databaseHandler')
 
 const router = express.Router()
 //neu request la: /admin
