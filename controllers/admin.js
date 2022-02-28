@@ -1,11 +1,41 @@
 const express = require('express')
-const { insertObject , getAllDocuments, FindDocumentsByname, FindDocumentsByid, DeleteDocumentsByid} = require('../databaseHandler')
+
+const { insertObject , getAllDocuments, FindAllDocumentsByName, FindDocumentsById, DeleteDocumentsByid, checkUserRole, FindDocumentsByEmail} = require('../databaseHandler')
+
 const router = express.Router()
 //neu request la: /admin
 router.get('/',(req,res)=>{
-    res.render('adminIndex')
+    res.render('view')
 })
-
+router.get('/loginAdmin', async (req,res)=>{
+    res.render('loginAdmin')
+}) 
+router.post('/loginAdmin', async (req,res)=>{
+    const emailInputA = req.body.txtLEmailA
+    const passInputA = req.body.txtLPassA
+    const role = await checkUserRole(emailInputA, passInputA)
+    console.log(role)
+    if (role == -1) {
+        res.redirect('/admin/loginAdmin')
+    } else if (role == "Staff"){
+        const results = await FindDocumentsByEmail(emailInputA)
+        req.session["Staff"] = {
+            name: results.name,
+            email: emailInputA,
+            role: role
+        }
+        res.redirect('/admin/view')
+    }
+    else if (role == "Admin"){
+        const results = await FindDocumentsByEmail(emailInputA)
+        req.session["Admin"] = {
+            name: results.name,
+            email: emailInputA,
+            role: role
+        }
+        res.redirect('/admin/view')
+    }
+}) 
 //neu request la: /admin/addUser
 router.get('/addUser',(req,res)=>{
     res.render('addUser')
@@ -65,35 +95,42 @@ router.post('/editBooks',async (req,res)=>{
 
 //Submit add User
 router.post('/addUser',(req,res)=>{
-    const name = req.body.txtRAName
-    const role = req.body.txtRole
-    const pass= req.body.txtRAPass
+    const name = req.body.txtNameA
+    const email = req.body.txtEmailA
+    const role = req.body.txtRoleA
+    const password= req.body.txtPassA
     const objectToInsert = {
-        email: name,
+        name: name,
+        email: email,
         role: role,
-        password: pass
+        password: password
     }
     insertObject("Users",objectToInsert)
-    res.redirect('/')
+    res.redirect('/admin/view')
 })
-router.get('/view', async (req,res)=>{
+router.get('/view', requiresLoginAdminAStaff, async (req,res)=>{
     //1.lay du lieu 
+    if(req.session["Admin"])
+    {
+        admin = req.session["Admin"]
+    }else{
+        admin = req.session["Staff"]
+    }
     const searchInput = req.query.txtSearch
     const collectionName = "Products"
     const results = await getAllDocuments(collectionName)
-    const resultSearch = await FindDocumentsByname(searchInput)
+    const resultSearch = await FindAllDocumentsByName(searchInput)
     //2.hien thu du lieu qua HBS
     if(searchInput == null)
-    {   
-        
-        res.render('view', {products: results})       
+    {          
+        res.render('view', {products: results, admin: admin})       
     }else{   
         if(resultSearch.length != 0)
         {                 
-            res.render('view', {products: resultSearch})
+            res.render('view', {products: resultSearch, admin: admin})
         }else {
             const messageS = " Khong tim thay"
-            res.render('view', {products: results, messS : messageS})
+            res.render('view', {products: results, messS : messageS, admin: admin})
         }
     }  
 })
@@ -103,6 +140,13 @@ function requiresLoginAdmin(req,res,next){
         return next()
     }else{
         res.redirect('/login')
+    }
+}
+function requiresLoginAdminAStaff(req,res,next){
+    if(req.session["Admin"] || req.session["Staff"]){
+        return next()
+    }else{
+        res.redirect('/admin/loginAdmin')
     }
 }
 module.exports = router;
