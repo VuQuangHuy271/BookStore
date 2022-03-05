@@ -219,7 +219,7 @@ app.post('/order', async (req, res) => {
     var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     var dateTime = date+' '+time;
     console.log(dateTime)
-    const newO = {cart: cart, time: dateTime}
+    const newO = {cart: cart, time: dateTime, status:"Waiting for the goods"}
     insertObject("Order",newO)
     req.session["cart"] = null;
     res.redirect('/')
