@@ -4,7 +4,7 @@
 <!------ Include the above in your HEAD tag ---------->
 
 <div class="container">
-    <form action="/order" method="post">
+    <form action="order" method="post">
         <div class="row">
             <div class="col-sm-12 col-md-10 col-md-offset-1">
                 <table class="table table-hover">
@@ -23,6 +23,7 @@
                             <tr>
                                 <td class="col-md-6">
                                 <div class="media">
+                                    <input type="hidden" name="txtpicURLO" value="{{picURL}}">
                                     <a class="thumbnail pull-left" href="#"> <img class="media-object" src="{{picURL}}" style="width: 72px; height: 72px;"> </a>
                                     <div class="media-body">
                                         <h4 class="media-heading"><a href="#">{{name}}</a></h4>
@@ -31,7 +32,7 @@
                                     </div>
                                 </div></td>
                                 <td class="col-md-1" style="text-align: center">
-                                <input type="email" class="form-control" id="exampleInputEmail1" value="{{qty}}">
+                                <input type="text" class="form-control"  value="{{qty}}">
                                 </td>
                                 <td class="col-md-1 text-center"><strong>${{price}}</strong></td>
                                 <td class="col-md-1 text-center"><strong>${{subtotal}}</strong></td>
@@ -68,9 +69,7 @@
                                 <a href="/"><span class="glyphicon glyphicon-shopping-cart"></span> Continue Shopping</a>
                             </button></td>
                             <td>
-                            <button type="button" class="btn btn-success">
-                                Checkout <span class="glyphicon glyphicon-play"></span>
-                            </button></td>
+                            <input type="submit" value="Check out" class = "btn btn-success">
                         </tr>
                     </tbody>
                 </table>

@@ -210,7 +210,20 @@ app.get('/Cart',async (req,res)=>{
     totalC = total - ship
     res.render('Cart',{cart: cart, quantity: quantity, ship: ship, total: total, totalC: totalC})
 })
-
+app.post('/order', async (req, res) => {
+    const cart = req.session["cart"]
+    // var today = new Date();
+    // var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()+ " -- "+ today.getDay()+"/"+ today.getMonth()+"/"+today.getFullYear();
+    var today = new Date();
+    var date = today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear();
+    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    var dateTime = date+' '+time;
+    console.log(dateTime)
+    const newO = {cart: cart, time: dateTime}
+    insertObject("Order",newO)
+    req.session["cart"] = null;
+    res.redirect('/')
+})
 const PORT = process.env.PORT || 5000
 app.listen(PORT)
 console.log("Server is running! " + PORT)
