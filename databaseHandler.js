@@ -44,7 +44,7 @@ async function FindDocumentsById(collectionName, id) {
 async function FindAllDocumentsByName(value) {
     const dbo = await getDatabase()
     //const results = await dbo.collection("Products").find({}).sort({name:1}).limit(7).toArray()   
-    const results = await dbo.collection("Products").find({name: value}).limit(10).toArray() 
+    const results = await dbo.collection("Products").find({name: new RegExp(value)}).limit(10).toArray() 
     return results
 }
 
