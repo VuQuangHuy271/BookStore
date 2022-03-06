@@ -31,7 +31,7 @@ app.get('/login', async (req,res)=>{
 app.get("/logout", (req, res) => {
     req.session["Customer"] = null;
     res.redirect("/");
-  });
+});
 
 app.post('/login',async (req,res)=>{
     const emailInput = req.body.txtLName

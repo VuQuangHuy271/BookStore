@@ -55,22 +55,23 @@ router.get('/addBooks', async (req,res)=>{
 router.post('/addbook',async (req,res)=>{   
     const nameInput = req.body.txtName
     const priceInput = req.body.txtPrice
+    const authorInput = req.body.txtAuthor
     const descriptionInput = req.body.txtDescription
     const picURLInput = req.body.txtPicURL
     if(isNaN(priceInput)==true){
         const errorMessage = "Gia phai la so!"
-        const oldValues = {name:nameInput,price:priceInput,picURL:picURLInput, description: descriptionInput} 
+        const oldValues = {name:nameInput,price:priceInput,author: authorInput, picURL:picURLInput, description: descriptionInput} 
         res.render('addBooks', {error:errorMessage , oldValues:oldValues})
         return;
     }
     if(descriptionInput.length >= 100 || descriptionInput.length < 0)
     {
         const errorDes="do dai cua chuoi tu 0 - 10";
-        const oldValues = {name:nameInput,price:priceInput,picURL:picURLInput, description: descriptionInput}
+        const oldValues = {name:nameInput,price:priceInput, author: authorInput, picURL:picURLInput, description: descriptionInput}
         res.render('addBooks', {errorD : errorDes,  oldValues:oldValues})
         return;
     }
-    const newP = {name: nameInput,price:Number.parseFloat(priceInput), description: descriptionInput, picURL:picURLInput}
+    const newP = {name: nameInput,price:Number.parseFloat(priceInput),author: authorInput, description: descriptionInput, picURL:picURLInput}
     insertObject("Products",newP)
     res.redirect('/admin/view')
 })
@@ -84,6 +85,7 @@ router.post('/editBooks',async (req,res)=>{
     //lấy dữ liệu 
     const nameEdit = req.body.txtName
     const priceEdit = req.body.txtPrice
+    const authorEdit = req.body.txtAuthor
     const picURLEdit = req.body.txtPicURL
     const descriptionEdit=req.body.txtDescription
     //lấy id để từ id đó sửa các giá trị khác
@@ -91,7 +93,7 @@ router.post('/editBooks',async (req,res)=>{
     // const dbo = await FindDocumentsById("Products", id)
     // await dbo.collection("Products").updateOne({_id : ObjectId(id)}, { $set: {name : nameEdit, price : priceEdit, picURL : picURLEdit, description : descriptionEdit} })
     const myquery = { _id: ObjectId(id) }
-    const newvalues = { $set: {name: nameEdit, price: priceEdit,desCriptionEdit: descriptionEdit, picURL:picURLEdit } }
+    const newvalues = { $set: {name: nameEdit, price: priceEdit, author: authorEdit,desCriptionEdit: descriptionEdit, picURL:picURLEdit } }
     const collectionName = "Products"
     await updateCollection(collectionName, myquery, newvalues)
     res.redirect('/admin/view')
