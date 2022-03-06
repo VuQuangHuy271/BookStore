@@ -1,6 +1,6 @@
 const express = require('express')
-
-const { insertObject , getAllDocuments, FindAllDocumentsByName, FindDocumentsById, DeleteDocumentsByid, checkUserRole, FindDocumentsByEmail} = require('../databaseHandler')
+const {ObjectId} = require('mongodb')
+const { insertObject , getAllDocuments, FindAllDocumentsByName,updateCollection, FindDocumentsById, DeleteDocumentsByid, checkUserRole, FindDocumentsByEmail} = require('../databaseHandler')
 
 const router = express.Router()
 //neu request la: /admin
