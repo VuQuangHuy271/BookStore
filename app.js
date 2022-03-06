@@ -8,6 +8,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(session({ secret: '12121121@adas', cookie: { maxAge: 60000 }, saveUninitialized: false, resave: false }))
 app.use(express.static('public'))
 const adminController = require('./controllers/admin')
+const { redirect } = require('express/lib/response')
 //cac request co chua /admin se di den controller admin
 app.use('/admin', adminController)
 
@@ -17,13 +18,21 @@ app.get('/inforProduct', async (req,res)=>{
     res.render('inforProduct', {products : results})
 
 }) 
+
 app.get('/allProduct', async (req,res)=>{
     const results = await getAllDocuments("Products")
     res.render('allProduct', {products : results})
 })
+
 app.get('/login', async (req,res)=>{
     res.render('login')
 })
+
+app.get("/logout", (req, res) => {
+    req.session["Customer"] = null;
+    res.redirect("/");
+  });
+
 app.post('/login',async (req,res)=>{
     const emailInput = req.body.txtLName
     const passInput = req.body.txtLPass
@@ -135,64 +144,86 @@ function requiresLoginCustomer(req,res,next){
 
 app.post('/buy',requiresLoginCustomer, async (req,res)=>{
     const id = req.body.txtId
+    customer = req.session["Customer"]
     const results = await FindDocumentsById("Products", id)
     let cart = req.session["cart"]
     //chua co gio hang trong session, day se la sp dau tien
     if(!cart){
-        let dict = {}
-        dict[id] = 1
-        req.session["cart"] = dict
-        console.log("Ban da mua:" + results.name + ", so luong: " + dict[id])
+        let dict = {
+            user: customer.name,
+            cart: [],
+        }
+            results.qty = 1;
+            results.subtotal = results.price * results.qty;
+            dict.cart.push(results);
+            req.session["cart"] = dict;
+            console.log(dict)
     }else{
         dict = req.session["cart"]
-        //co lay product trong dict
-        var oldProduct = dict[id]
-        //kiem tra xem product da co trong Dict
-        if(!oldProduct)
-            dict[id] = 1
-        else{
-            dict[id] = parseInt(oldProduct) +1
+        //kiem tra book co trong dict k
+        //https://stackoverflow.com/questions/7364150/find-object-by-id-in-an-array-of-javascript-objects
+        // Phương thức findIndex() trả về chỉ số của phần tử đầu tiên trong mảng đáp ứng chức năng kiểm tra được cung cấp. Nếu không, -1 được trả về.
+        var oldBook = dict.cart.findIndex((book) => book._id == results._id);
+        if (oldBook == -1) {
+            results.qty = 1;
+            results.subtotal = results.price * results.qty;
+            dict.cart.push(results);
+        } else {
+            const oBook = dict.cart[oldBook];
+            oBook.qty += 1;
+            oBook.subtotal = oBook.price * oBook.qty;
         }
         req.session["cart"] = dict
-        console.log("Ban da mua:" + results.name + ", so luong: " + dict[id])
+        console.log(dict)
     }
     res.redirect('/')
 })
-
+app.get('/remove',async (req,res)=>{
+    dict = req.session["cart"]
+    const id = req.body.txtId
+    for(var i = 0; i < dict.cart.length; i++){
+        if(dict.cart._id == id){
+            console.log(dict.cart._id)
+            dict.cart.splice(i,1)
+            res.redirect('cart')
+        }
+    }    
+})
 app.get('/Cart',async (req,res)=>{
-    const cart = req.session["cart"]
-    let sum = 0;
-    let quantity = 0
+    let quantity = 0;
     let ship = 0;
+    let total = 0;
     let totalC = 0;
-    //Mot array chua cac san pham trong gio hang
-    let spDaMua = []
-    //neu khach hang da mua it nhat 1 sp
-    if(cart){
-        const dict = req.session["cart"]       
-        for(var id in dict) {
-            const results = await FindDocumentsById("Products", id)   
-            console.log(dict[id])
-            const total = dict[id] * results.price
-            spDaMua.push({name: results.name, price: results.price, picURL: results.picURL, total: total, soLuong: dict[id]})   
-         }
-        for (let i = 0; i < spDaMua.length; i++){
-            sum += spDaMua[i].total;
-            quantity += spDaMua[i].soLuong;
-            console.log(sum)
-        }      
+    const cart = req.session["cart"]
+    for(var i = 0; i < dict.cart.length; i++){
+        quantity += dict.cart[i].qty
+        total += dict.cart[i].subtotal
     }
-    const subtotal = sum;
-    if(quantity > 0 && quantity < 10)
+    if(quantity == 0)
     {
+        ship = 0
+    }else if(quantity < 10){
         ship = 10
     }else{
         ship = 5
     }
-    totalC = sum - ship
-    res.render('Cart',{products:spDaMua, subtotal: subtotal, ship: ship, totalC: totalC})
+    totalC = total - ship
+    res.render('Cart',{cart: cart, quantity: quantity, ship: ship, total: total, totalC: totalC})
 })
-
+app.post('/order', async (req, res) => {
+    const cart = req.session["cart"]
+    // var today = new Date();
+    // var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()+ " -- "+ today.getDay()+"/"+ today.getMonth()+"/"+today.getFullYear();
+    var today = new Date();
+    var date = today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear();
+    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    var dateTime = date+' '+time;
+    console.log(dateTime)
+    const newO = {cart: cart, time: dateTime, status:"Waiting for the goods"}
+    insertObject("Order",newO)
+    req.session["cart"] = null;
+    res.redirect('/')
+})
 const PORT = process.env.PORT || 5000
 app.listen(PORT)
 console.log("Server is running! " + PORT)
