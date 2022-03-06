@@ -42,25 +42,35 @@
         <h2 style="text-align: center;" >Update Profile</h2>
     <div class="container">
         <div class="input-group input-group-sm mb-3">
-            <span class="input-group-text" id="inputGroup-sizing-sm">First Name</span>
-            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" >
+            <span class="input-group-text" id="inputGroup-sizing-sm">Name</span>
+            <input required="true" type="text" class="form-control" name="txtName" value="{{customer.name}}">
         </div>
         <div class="input-group input-group-sm mb-3">
-            <span class="input-group-text" id="inputGroup-sizing-sm">Surname</span>
-            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+            <span class="input-group-text" id="inputGroup-sizing-sm">Phone Number</span>
+            <input required="true" type="text" class="form-control" name="txtName" value="{{product.name}}">
         </div>
+        <div class="form-group" >
+                        <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="txtGender" value="Male">
+                        <span class="form-check-label" > Male </span>
+                        </label>
+                        <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="txtGender" value="Female">
+                        <span class="form-check-label"> Female</span>
+                        </label>
+                    </div>
         <div class="input-group input-group-sm mb-3">
             <span class="input-group-text" id="inputGroup-sizing-sm">Email address</span>
-            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" >
+            <input required="true" type="text" class="form-control" name="txtName" value="{{product.name}}">
         </div>
         <div class="input-group input-group-sm mb-3">
-            <span class="input-group-text" id="inputGroup-sizing-sm">Age</span>
-            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+            <span class="input-group-text" id="inputGroup-sizing-sm">City</span>
+            <input required="true" type="text" class="form-control" name="txtName" value="{{product.name}}">
         </div>
         <div class="input-group input-group-sm mb-3">
             <span class="input-group-text" id="inputGroup-sizing-sm">Select a country</span>
             <select class="form-select" aria-label="Default select example">
-                <option selected>Open this select menu</option>
+                <option selected>Viet Nam</option>
                 <option value="1">Viet Nam</option>
                 <option value="2">China</option>
                 <option value="3">Korea</option>
