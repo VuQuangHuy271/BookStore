@@ -31,9 +31,8 @@
                         </form>
                             
                         {{#if customerI}}
-                        <a href="Cart" class="btn btn-info btn-lg"> Cart </a>
+                        <a style="font-size:smaller;" href="Cart" class="btn btn-info btn-lg"> Cart </a>
                         <div class="dropdown">
-                        
                         <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"> {{customerI.name}}
                         <span class="caret"></span></button>
                         <ul class="dropdown-menu">
@@ -64,16 +63,15 @@
                             {{#each products}}                   
                                 <div class="card" style="width: 15rem; align-items: center; background-color: rgba(236, 238, 93, 0.288)">
                                     <img src="{{picURL}}" class="card-img-top" style="width: 10rem; height: 10rem;" alt="..."> 
-                                    <div class="card-body">
+                                    <div class="card-body h-100">
                                         <a href="/inforProduct?id={{_id}}" style="color: rgb(29, 27, 27); font-size: 1.5rem;"><p class="card-text">{{name}}</p></a>
                                     </div>
                                     <div class="card-body">
-                                        <a href="/inforProduct?id={{_id}}"><p class="card-text">Mua Ngay</p></a>
+                                        <a href="Cart"><p class="card-text">Mua Ngay</p></a>
                                     </div>
                                     <form action="/buy" method="post">
                                         <input type="hidden" name="txtId" value="{{_id}}">
-                                        <button type="submit" class="btn btn-outline-success">Thêm Vào Giỏ Hàng</button>
-                                        
+                                        <button type="submit" class="btn btn-outline-success">Thêm Vào Giỏ Hàng</button>                                      
                                     </form>
                                 </div>
                             {{/each}}
@@ -85,9 +83,6 @@
                     </div>
                 </div>
             </div>
-        
-
-
     </div>
     
     <div class="footer" style="background: rgba(182, 226, 243, 0.856);">
@@ -125,8 +120,6 @@
                 </div>
                 <!-- Right -->
             </section>
-            <!-- Section: Social media -->
-            <!-- Section: Links  -->
             <section class="">
                 <div class="container text-center text-md-start mt-5">
                     <!-- Grid row -->
