@@ -76,7 +76,7 @@ router.post('/addbook',async (req,res)=>{
 })
 router.get('/editBooks', async (req,res)=>{
     const id = req.query.id  
-    const productToEdit = await FindDocumentsByid("Products", id)
+    const productToEdit = await FindDocumentsById("Products", id)
     res.render('editBooks', {product : productToEdit})
 }) 
 
@@ -88,9 +88,13 @@ router.post('/editBooks',async (req,res)=>{
     const descriptionEdit=req.body.txtDescription
     //lấy id để từ id đó sửa các giá trị khác
     const id = req.body.txtId
-    const dbo = await FindDocumentsByid("Products", id)
-    await dbo.collection("Products").updateOne({_id : ObjectId(id)}, { $set: {name : nameEdit, price : priceEdit, picURL : picURLEdit, description : descriptionEdit} })
-    res.redirect('/view')
+    // const dbo = await FindDocumentsById("Products", id)
+    // await dbo.collection("Products").updateOne({_id : ObjectId(id)}, { $set: {name : nameEdit, price : priceEdit, picURL : picURLEdit, description : descriptionEdit} })
+    const myquery = { _id: ObjectId(id) }
+    const newvalues = { $set: {name: nameEdit, price: priceEdit,desCriptionEdit: descriptionEdit, picURL:picURLEdit } }
+    const collectionName = "Products"
+    await updateCollection(collectionName, myquery, newvalues)
+    res.redirect('/admin/view')
 })
 
 //Submit add User

@@ -40,7 +40,7 @@
 				<h2 class="text-center">Edit Product</h2>
 			</div>
 			<div class="panel-body">
-                <form action="/editBooks" method="post">
+                <form action="editBooks" method="post">
 					<input type="hidden" name="txtId" value="{{product._id}}">					
                     <div class="form-group">			
 						<label for="name">Name:</label>
@@ -58,7 +58,7 @@
                         <label for="name">Picture URL:</label>
                         <input required="true" type="text" class="form-control" name="txtPicURL" value="{{product.picURL}}">
 					</div>
-                    <input type="submit" value="Edit" class = "btn btn-success">
+                    <input type="submit" value="Insert" class = "btn btn-success">
             </form>
             </div>
 		</div>
