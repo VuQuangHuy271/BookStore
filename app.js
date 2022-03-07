@@ -33,6 +33,8 @@ app.get("/logout", (req, res) => {
     res.redirect("/");
 });
 
+
+
 app.post('/login',async (req,res)=>{
     const emailInput = req.body.txtLName
     const passInput = req.body.txtLPass
@@ -133,6 +135,24 @@ app.get('/updateProfile',requiresLoginCustomer, async (req,res)=>{
     const results = FindDocumentsByEmail(email)
     res.render('updateProfile', {profile: results, customerI: customer})
 })
+
+app.post('/updateProfile',requiresLoginCustomer, async (req,res)=>{
+    const nameUpdate = req.body.txtName
+    const phoneUpdate = req.body.txtPhone
+    const genderUpdate = req.body.txtGender
+    const cityUpdate = req.body.txtCity
+    const countryUpdate = req.body.txtCountry
+    //lấy id để từ id đó sửa các giá trị khác
+    const email = req.body.txtEmail
+    // const dbo = await FindDocumentsById("Products", id)
+    // await dbo.collection("Products").updateOne({_id : ObjectId(id)}, { $set: {name : nameEdit, price : priceEdit, picURL : picURLEdit, description : descriptionEdit} })
+    const myquery = { _email: ObjectEmail(email) }
+    const newvalues = { $set: {name: nameUpdate, phone: phoneUpdate, gender: genderUpdate,city: cityUpdate, country: countryUpdate } }
+    const collectionName = "Customer"
+    await updateCollection(collectionName, myquery, newvalues)
+    res.redirect('/')
+})
+
 function requiresLoginCustomer(req,res,next){
     if(req.session["Customer"]){
         return next()
