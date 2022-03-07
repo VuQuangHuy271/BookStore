@@ -259,7 +259,7 @@ app.get('/Cart',requiresLoginCustomer, async (req,res)=>{
     }
 
     totalC = total + ship
-    res.render('Cart',{cart: cart, quantity: quantity, ship: ship, total: total, totalC: totalC})
+    res.render('Cart',{dict: cart, quantity: quantity, ship: ship, total: total, totalC: totalC})
 
 })
 app.post('/order', requiresLoginCustomer,async (req, res) => {
