@@ -1,8 +1,9 @@
 const express = require('express')
+const {ObjectId} = require('mongodb')
 const session = require('express-session')
 const app = express()
 
-const { insertObject ,getIndexDocuments, getAllDocuments, FindAllDocumentsByName, checkUserRole, FindDocumentsByEmail, FindDocumentsByPhone, FindDocumentsById} = require('./databaseHandler')
+const { insertObject ,getIndexDocuments, getAllDocuments, FindAllDocumentsByName, checkUserRole, FindDocumentsByEmail, FindDocumentsByPhone, FindDocumentsById, updateCollection} = require('./databaseHandler')
 app.set('view engine', 'hbs')
 app.use(express.urlencoded({ extended: true }))
 app.use(session({ secret: '12121121@adas', cookie: { maxAge: 60000 }, saveUninitialized: false, resave: false }))
@@ -47,6 +48,10 @@ app.post('/login',async (req,res)=>{
         const results = await FindDocumentsByEmail(emailInput)
         req.session["Customer"] = {
             name: results.name,
+            phone: results.phone,
+            gender: results.gender,
+            city: results.city,
+            country: results.country,
             email: emailInput,
             role: role
         }
@@ -171,13 +176,11 @@ app.post('/updateProfile',requiresLoginCustomer, async (req,res)=>{
     const countryUpdate = req.body.txtCountry
     //lấy id để từ id đó sửa các giá trị khác
     const email = req.body.txtEmail
-    // const dbo = await FindDocumentsById("Products", id)
-    // await dbo.collection("Products").updateOne({_id : ObjectId(id)}, { $set: {name : nameEdit, price : priceEdit, picURL : picURLEdit, description : descriptionEdit} })
-    const myquery = { _email: ObjectEmail(email) }
-    const newvalues = { $set: {name: nameUpdate, phone: phoneUpdate, gender: genderUpdate,city: cityUpdate, country: countryUpdate } }
-    const collectionName = "Customer"
-    await updateCollection(collectionName, myquery, newvalues)
-    res.redirect('/')
+    const dbo = await FindDocumentsByEmail(email)
+    const myquery = { _id: ObjectId(dbo._id) }
+    const newUpdate = { $set: {name : nameUpdate, phone : phoneUpdate, email: dbo.email, gender : genderUpdate,city:cityUpdate, country : countryUpdate,password: dbo.password, role: dbo.role}}
+    await updateCollection("Users", myquery, newUpdate)
+    res.redirect('/allProduct')
 })
 
 function requiresLoginCustomer(req,res,next){

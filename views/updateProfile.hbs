@@ -44,11 +44,11 @@
         <form action="updateProfile" method="post">
             <div class="input-group input-group-sm mb-3">
             <span class="input-group-text" id="inputGroup-sizing-sm">Name</span>
-            <input required="true" type="text" class="form-control" name="txtName" value="{{customer.name}}">
+            <input required="true" type="text" class="form-control" name="txtName" value="{{customerI.name}}">
         </div>
         <div class="input-group input-group-sm mb-3">
             <span class="input-group-text" id="inputGroup-sizing-sm">Phone Number</span>
-            <input required="true" type="text" class="form-control" name="txtPhone" value="{{customer.phone}}">
+            <input required="true" type="text" class="form-control" name="txtPhone" value="{{customerI.phone}}">
         </div>
         <div class="form-group" >
                         <label class="form-check form-check-inline">
@@ -63,16 +63,16 @@
         <div class="input-group input-group-sm mb-3">
             <span class="input-group-text" id="inputGroup-sizing-sm">Email address</span>
             {{!-- <input required="true" type="text" class="form-control" name="txtEmail" value="{{oldValues.email}}"> --}}
-            <input required="true" type="email" class="form-control" placeholder="" name="txtEmail" value="{{customer.email}}">
+            <input required="true" type="email" class="form-control" placeholder="" name="txtEmail" value="{{customerI.email}}">
         </div>
         <div class="input-group input-group-sm mb-3">
             <span class="input-group-text" id="inputGroup-sizing-sm">City</span>
             {{!-- <input required="true" type="text" class="form-control" name="txtCity" value="{{oldValues.city}}"> --}}
-            <input required="true" type="text" class="form-control" name="txtCity" value="{{customer.city}}">
+            <input required="true" type="text" class="form-control" name="txtCity" value="{{customerI.city}}">
         </div>
         <div class="input-group input-group-sm mb-3">
             <span class="input-group-text" id="inputGroup-sizing-sm">Select a country</span>
-            <select id="inputState" class="form-control" name = "txtCountry" value="{{customer.country}}">
+            <select id="inputState" class="form-control" name = "txtCountry" value="{{customerI.country}}">
                             <option> Choose...</option>
                             <option>Uzbekistan</option>
                             <option>Russia</option>
