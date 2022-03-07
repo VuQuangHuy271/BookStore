@@ -178,7 +178,7 @@ app.post('/buy',requiresLoginCustomer, async (req,res)=>{
     }
     res.redirect('/')
 })
-app.get('/remove',async (req,res)=>{
+app.get('/remove', async (req,res)=>{
     dict = req.session["cart"]
     const id = req.body.txtId
     for(var i = 0; i < dict.cart.length; i++){
@@ -189,12 +189,12 @@ app.get('/remove',async (req,res)=>{
         }
     }    
 })
-app.get('/Cart',async (req,res)=>{
+app.get('/Cart',requiresLoginCustomer, async (req,res)=>{
     let quantity = 0;
     let ship = 0;
     let total = 0;
     let totalC = 0;
-    const cart = req.session["cart"]
+    const dict = req.session["cart"]
     for(var i = 0; i < dict.cart.length; i++){
         quantity += dict.cart[i].qty
         total += dict.cart[i].subtotal
@@ -208,9 +208,9 @@ app.get('/Cart',async (req,res)=>{
         ship = 5
     }
     totalC = total - ship
-    res.render('Cart',{cart: cart, quantity: quantity, ship: ship, total: total, totalC: totalC})
+    res.render('Cart',{cart: dict, quantity: quantity, ship: ship, total: total, totalC: totalC})
 })
-app.post('/order', async (req, res) => {
+app.post('/order', requiresLoginCustomer,async (req, res) => {
     const cart = req.session["cart"]
     // var today = new Date();
     // var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()+ " -- "+ today.getDay()+"/"+ today.getMonth()+"/"+today.getFullYear();
