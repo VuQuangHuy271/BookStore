@@ -17,7 +17,7 @@ async function insertObject(collectionName,objectToInsert){
 
 async function getIndexDocuments(collectionName) {
     const dbo = await getDatabase()
-    const results = await dbo.collection("Products").find({}).sort({name:1}).limit(6).toArray()   
+    const results = await dbo.collection("Products").find({}).sort({name:1}).limit(5).toArray()   
     // const results = await dbo.collection(collectionName).find({}).toArray()
     return results
 }

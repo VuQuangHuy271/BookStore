@@ -41,34 +41,49 @@
         </div>
         <h2 style="text-align: center;" >Update Profile</h2>
     <div class="container">
-        <div class="input-group input-group-sm mb-3">
-            <span class="input-group-text" id="inputGroup-sizing-sm">First Name</span>
-            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" >
+        <form action="updateProfile" method="post">
+            <div class="input-group input-group-sm mb-3">
+            <span class="input-group-text" id="inputGroup-sizing-sm">Name</span>
+            <input required="true" type="text" class="form-control" name="txtName" value="{{customerI.name}}">
         </div>
         <div class="input-group input-group-sm mb-3">
-            <span class="input-group-text" id="inputGroup-sizing-sm">Surname</span>
-            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+            <span class="input-group-text" id="inputGroup-sizing-sm">Phone Number</span>
+            <input required="true" type="text" class="form-control" name="txtPhone" value="{{customerI.phone}}">
         </div>
+        <div class="form-group" >
+                        <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="txtGender" value="Male">
+                        <span class="form-check-label" > Male </span>
+                        </label>
+                        <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="txtGender" value="Female">
+                        <span class="form-check-label"> Female</span>
+                        </label>
+                    </div>
         <div class="input-group input-group-sm mb-3">
             <span class="input-group-text" id="inputGroup-sizing-sm">Email address</span>
-            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" >
+            {{!-- <input required="true" type="text" class="form-control" name="txtEmail" value="{{oldValues.email}}"> --}}
+            <input required="true" type="email" class="form-control" placeholder="" name="txtEmail" value="{{customerI.email}}">
         </div>
         <div class="input-group input-group-sm mb-3">
-            <span class="input-group-text" id="inputGroup-sizing-sm">Age</span>
-            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+            <span class="input-group-text" id="inputGroup-sizing-sm">City</span>
+            {{!-- <input required="true" type="text" class="form-control" name="txtCity" value="{{oldValues.city}}"> --}}
+            <input required="true" type="text" class="form-control" name="txtCity" value="{{customerI.city}}">
         </div>
         <div class="input-group input-group-sm mb-3">
             <span class="input-group-text" id="inputGroup-sizing-sm">Select a country</span>
-            <select class="form-select" aria-label="Default select example">
-                <option selected>Open this select menu</option>
-                <option value="1">Viet Nam</option>
-                <option value="2">China</option>
-                <option value="3">Korea</option>
-                <option value="4">Rusia</option>
-                <option value="5">Turkey</option>
-            </select>       
+            <select id="inputState" class="form-control" name = "txtCountry" value="{{customerI.country}}">
+                            <option> Choose...</option>
+                            <option>Uzbekistan</option>
+                            <option>Russia</option>
+                            <option >United States</option>
+                            <option>India</option>
+                            <option selected="">Việt Nam</option>
+                        </select>       
         </div>
-        <button type="button" class="btn btn-primary">Update Profile</button>
+        <input type="submit" value="Update" class = "btn btn-success">
+        {{!-- <button type="button" class="btn btn-primary">Update Profile</button> --}}
+        </form>
     </div>
     <div class="footer">
         <!-- Footer -->

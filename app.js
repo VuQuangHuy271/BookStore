@@ -1,14 +1,16 @@
 const express = require('express')
+const {ObjectId} = require('mongodb')
 const session = require('express-session')
 const app = express()
 
-const { insertObject , getAllDocuments, FindAllDocumentsByName, checkUserRole, FindDocumentsByEmail, FindDocumentsByPhone, FindDocumentsById} = require('./databaseHandler')
+const { insertObject ,getIndexDocuments, getAllDocuments, FindAllDocumentsByName, checkUserRole, FindDocumentsByEmail, FindDocumentsByPhone, FindDocumentsById, updateCollection} = require('./databaseHandler')
 app.set('view engine', 'hbs')
 app.use(express.urlencoded({ extended: true }))
 app.use(session({ secret: '12121121@adas', cookie: { maxAge: 60000 }, saveUninitialized: false, resave: false }))
 app.use(express.static('public'))
 const adminController = require('./controllers/admin')
 const { redirect } = require('express/lib/response')
+const { all } = require('./controllers/admin')
 //cac request co chua /admin se di den controller admin
 app.use('/admin', adminController)
 
@@ -19,10 +21,10 @@ app.get('/inforProduct', async (req,res)=>{
 
 }) 
 
-app.get('/allProduct', async (req,res)=>{
-    const results = await getAllDocuments("Products")
-    res.render('allProduct', {products : results})
-})
+// app.get('/allProduct', async (req,res)=>{
+//     const results = await getAllDocuments("Products")
+//     res.render('allProduct', {products : results})
+// })
 
 app.get('/login', async (req,res)=>{
     res.render('login')
@@ -32,6 +34,8 @@ app.get("/logout", (req, res) => {
     req.session["Customer"] = null;
     res.redirect("/");
 });
+
+
 
 app.post('/login',async (req,res)=>{
     const emailInput = req.body.txtLName
@@ -44,10 +48,14 @@ app.post('/login',async (req,res)=>{
         const results = await FindDocumentsByEmail(emailInput)
         req.session["Customer"] = {
             name: results.name,
+            phone: results.phone,
+            gender: results.gender,
+            city: results.city,
+            country: results.country,
             email: emailInput,
             role: role
         }
-        res.redirect('/')
+        res.redirect('/allProduct')
     }
 })
 
@@ -109,7 +117,7 @@ app.get('/', async (req,res)=>{
     customer = req.session["Customer"]
     const searchInputH = req.query.txtSearchHome
     const collectionName = "Products"
-    const results = await getAllDocuments(collectionName)
+    const results = await getIndexDocuments(collectionName)
     const resultSearch = await FindAllDocumentsByName(searchInputH)
     //2.hien thu du lieu qua HBS
     if(searchInputH == null)
@@ -126,6 +134,32 @@ app.get('/', async (req,res)=>{
     }   
     
 })
+// app.get('/allProduct', async (req,res)=>{
+//     const results = await getAllDocuments("Products")
+//     res.render('allProduct', {products : results})
+// })
+
+app.get('/allProduct', async (req,res)=>{
+    customer = req.session["Customer"]
+    const searchInputH = req.query.txtSearchHome
+    const collectionName = "Products"
+    const results = await getAllDocuments(collectionName)
+    const resultSearch = await FindAllDocumentsByName(searchInputH)
+    //2.hien thu du lieu qua HBS
+    if(searchInputH == null)
+    {         
+        res.render('index', {products: results, customerI: customer})       
+    }else{   
+        if(resultSearch.length != 0)
+        {                 
+            res.render('index', {products : resultSearch, customerI: customer})
+        }else {
+            const messageSH = " Khong tim thay"
+            res.render('allProduct', {products: results, messSH : messageSH, customerI: customer})
+        }
+    }   
+    
+})
 
 app.get('/updateProfile',requiresLoginCustomer, async (req,res)=>{
     customer = req.session["Customer"]
@@ -133,6 +167,22 @@ app.get('/updateProfile',requiresLoginCustomer, async (req,res)=>{
     const results = FindDocumentsByEmail(email)
     res.render('updateProfile', {profile: results, customerI: customer})
 })
+
+app.post('/updateProfile',requiresLoginCustomer, async (req,res)=>{
+    const nameUpdate = req.body.txtName
+    const phoneUpdate = req.body.txtPhone
+    const genderUpdate = req.body.txtGender
+    const cityUpdate = req.body.txtCity
+    const countryUpdate = req.body.txtCountry
+    //lấy id để từ id đó sửa các giá trị khác
+    const email = req.body.txtEmail
+    const dbo = await FindDocumentsByEmail(email)
+    const myquery = { _id: ObjectId(dbo._id) }
+    const newUpdate = { $set: {name : nameUpdate, phone : phoneUpdate, email: dbo.email, gender : genderUpdate,city:cityUpdate, country : countryUpdate,password: dbo.password, role: dbo.role}}
+    await updateCollection("Users", myquery, newUpdate)
+    res.redirect('/allProduct')
+})
+
 function requiresLoginCustomer(req,res,next){
     if(req.session["Customer"]){
         return next()
@@ -176,7 +226,7 @@ app.post('/buy',requiresLoginCustomer, async (req,res)=>{
         req.session["cart"] = dict
         console.log(dict)
     }
-    res.redirect('/')
+    res.redirect('/allProduct')
 })
 app.get('/remove', async (req,res)=>{
     dict = req.session["cart"]
@@ -207,8 +257,10 @@ app.get('/Cart',requiresLoginCustomer, async (req,res)=>{
     }else{
         ship = 5
     }
-    totalC = total - ship
-    res.render('Cart',{cart: dict, quantity: quantity, ship: ship, total: total, totalC: totalC})
+
+    totalC = total + ship
+    res.render('Cart',{cart: cart, quantity: quantity, ship: ship, total: total, totalC: totalC})
+
 })
 app.post('/order', requiresLoginCustomer,async (req, res) => {
     const cart = req.session["cart"]
