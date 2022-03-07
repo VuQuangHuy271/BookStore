@@ -2,13 +2,14 @@ const express = require('express')
 const session = require('express-session')
 const app = express()
 
-const { insertObject , getAllDocuments, FindAllDocumentsByName, checkUserRole, FindDocumentsByEmail, FindDocumentsByPhone, FindDocumentsById} = require('./databaseHandler')
+const { insertObject ,getIndexDocuments, getAllDocuments, FindAllDocumentsByName, checkUserRole, FindDocumentsByEmail, FindDocumentsByPhone, FindDocumentsById} = require('./databaseHandler')
 app.set('view engine', 'hbs')
 app.use(express.urlencoded({ extended: true }))
 app.use(session({ secret: '12121121@adas', cookie: { maxAge: 60000 }, saveUninitialized: false, resave: false }))
 app.use(express.static('public'))
 const adminController = require('./controllers/admin')
 const { redirect } = require('express/lib/response')
+const { all } = require('./controllers/admin')
 //cac request co chua /admin se di den controller admin
 app.use('/admin', adminController)
 
@@ -19,10 +20,10 @@ app.get('/inforProduct', async (req,res)=>{
 
 }) 
 
-app.get('/allProduct', async (req,res)=>{
-    const results = await getAllDocuments("Products")
-    res.render('allProduct', {products : results})
-})
+// app.get('/allProduct', async (req,res)=>{
+//     const results = await getAllDocuments("Products")
+//     res.render('allProduct', {products : results})
+// })
 
 app.get('/login', async (req,res)=>{
     res.render('login')
@@ -49,7 +50,7 @@ app.post('/login',async (req,res)=>{
             email: emailInput,
             role: role
         }
-        res.redirect('/')
+        res.redirect('/allProduct')
     }
 })
 
@@ -111,7 +112,7 @@ app.get('/', async (req,res)=>{
     customer = req.session["Customer"]
     const searchInputH = req.query.txtSearchHome
     const collectionName = "Products"
-    const results = await getAllDocuments(collectionName)
+    const results = await getIndexDocuments(collectionName)
     const resultSearch = await FindAllDocumentsByName(searchInputH)
     //2.hien thu du lieu qua HBS
     if(searchInputH == null)
@@ -124,6 +125,32 @@ app.get('/', async (req,res)=>{
         }else {
             const messageSH = " Khong tim thay"
             res.render('index', {products: results, messSH : messageSH, customerI: customer})
+        }
+    }   
+    
+})
+// app.get('/allProduct', async (req,res)=>{
+//     const results = await getAllDocuments("Products")
+//     res.render('allProduct', {products : results})
+// })
+
+app.get('/allProduct', async (req,res)=>{
+    customer = req.session["Customer"]
+    const searchInputH = req.query.txtSearchHome
+    const collectionName = "Products"
+    const results = await getAllDocuments(collectionName)
+    const resultSearch = await FindAllDocumentsByName(searchInputH)
+    //2.hien thu du lieu qua HBS
+    if(searchInputH == null)
+    {         
+        res.render('index', {products: results, customerI: customer})       
+    }else{   
+        if(resultSearch.length != 0)
+        {                 
+            res.render('index', {products : resultSearch, customerI: customer})
+        }else {
+            const messageSH = " Khong tim thay"
+            res.render('allProduct', {products: results, messSH : messageSH, customerI: customer})
         }
     }   
     
@@ -196,7 +223,7 @@ app.post('/buy',requiresLoginCustomer, async (req,res)=>{
         req.session["cart"] = dict
         console.log(dict)
     }
-    res.redirect('/')
+    res.redirect('/allProduct')
 })
 app.get('/remove',async (req,res)=>{
     dict = req.session["cart"]
@@ -227,7 +254,7 @@ app.get('/Cart',async (req,res)=>{
     }else{
         ship = 5
     }
-    totalC = total - ship
+    totalC = total + ship
     res.render('Cart',{cart: cart, quantity: quantity, ship: ship, total: total, totalC: totalC})
 })
 app.post('/order', async (req, res) => {

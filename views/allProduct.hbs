@@ -20,23 +20,32 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href='/'>Home</a>
+                                <a class="nav-link active" aria-current="page" href="/">Home</a>
                             </li>
-                            {{!-- <li class="nav-item">
-                                <a class="nav-link" href="#">Link</a>
-                            </li> --}}
-                            {{!-- <li class="nav-item">
-                            <a class="nav-link disabled">Disabled</a>
-                            </li> --}}
                         </ul>
-                        <form class="container" style="display: flex; ">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="txtSearch">
-                            <button class="btn btn-outline-success" type="submit">Search</button>                  
+                        <form class="container" style="display: flex;">
+                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="txtSearchHome" >
+                            <button class="btn btn-outline-success" type="submit" >Search</button>                   
                         </form>
-                        <form class="d-flex" >
-                            <a class="nav-link" href="/login" style="color: black">Login </a>   
-                            <a class="nav-link" href="/register" style="color: black">Register</a>                     
-                        </form>
+                            
+                        {{#if customerI}}
+                        <a style="font-size:smaller;" href="Cart" class="btn btn-info btn-lg"> Cart </a>
+                        <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"> {{customerI.name}}
+                        <span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                            <li><a href="updateProfile">Edit Profile</a></li>
+                            <li><a href="#">CSS</a></li>
+                            <li><a href="/logout">Log out</a></li>
+                        </ul>
+                        </div>
+                        {{else}}
+                            <form class="d-flex" >
+                                <a class="nav-link" href="/login" style="color: black">Login </a>   
+                                <a class="nav-link" href="/register" style="color: black">Register</a>                     
+                            </form>
+                        {{/if}}
+                        
                     </div>
                 </div>
             </nav>
@@ -50,18 +59,16 @@
                                 <div class="card" style="width: 15rem; align-items: center; background-color: rgba(236, 238, 93, 0.288)">
                                     <img src="{{picURL}}" class="card-img-top" style="width: 10rem; height: 10rem;" alt="..."> 
                                     {{!-- margin-left: 25px; --}}
-                                    <div class="card-body">
-                                        <a href="/inforProduct" style="color: rgb(29, 27, 27); font-size: 1.5rem;"><p class="card-text">{{name}}</p></a>
-
+                                    <div class="card-body h-100">
+                                        <a href="/inforProduct?id={{_id}}" style="color: rgb(29, 27, 27); font-size: 1.5rem;"><p class="card-text">{{name}}</p></a>
                                     </div>
                                     <div class="card-body">
                                         <a href="#"><p class="card-text">Mua Ngay</p></a>
                                     </div>
-
-                                    <div class="card-body">
-                                        <a href="#"><p class="card-text">Thêm Vào Giỏ Hàng</p></a>
-                                        
-                                    </div>
+                                    <form action="/buy" method="post">
+                                        <input type="hidden" name="txtId" value="{{_id}}">
+                                        <button type="submit" class="btn btn-outline-success">Thêm Vào Giỏ Hàng</button>                                      
+                                    </form>
                                 </div>
                             {{/each}}
                         </div>
