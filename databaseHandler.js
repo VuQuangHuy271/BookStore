@@ -34,11 +34,7 @@ async function DeleteDocumentsByid(collectionName, id) {
     const results = await dbo.collection(collectionName).deleteOne({ _id: ObjectId(id)})
     return results
 }
-// async function FindDocumentsByid(collectionName, id) {
-//     const dbo = await getDatabase()
-//     const results = await dbo.collection(collectionName).findOne({ _id: ObjectId(id)})
-//     return results
-// }
+
 
 async function FindDocumentsById(collectionName, id) {
     const dbo = await getDatabase()
