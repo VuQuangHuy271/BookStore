@@ -42,7 +42,7 @@
             <th>Author</th>
             <th>Description</th>
             <th width="150" >Image</th>
-            <th width='80px'>Edit</th>
+            {{!-- <th width='80px'>Edit</th> --}}
             
         </tr>
         <script language="javascript">
@@ -54,12 +54,12 @@
             <td><script language="javascript">
                 document.write(num++);
             </script></td>
-            <td> {{Order.name}} </td>
-            <td>{{Order.price}} VND</td>
-            <td> {{Order.author}} </td>
-            <td>{{Order.description}}</td>
-            <td><img src="{{Order.picURL}}" alt="" width="150" height="100"></td>
-            <td><a href="editBooks?id={{_id}}">Edit</a></td>           
+            <td> {{this.cart.cart.0.name}} </td>
+            <td> {{this.cart.cart.0.price}} VND</td>
+            <td> {{this.cart.cart.0.author}} </td>
+            <td> {{this.cart.cart.0.description}}</td>
+            <td><img src="{{this.cart.cart.0.picURL}}" alt="" width="150" height="100"></td>
+            {{!-- <td><a href="editBooks?id={{_id}}">Edit</a></td>            --}}
         {{/each}}
         </tr>
 

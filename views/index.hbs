@@ -40,6 +40,7 @@
                             <li><a href="/logout">Log out</a></li>
                         </ul>
                         </div>
+                        
                         {{else}}
                             <form class="d-flex" >
                                 <a class="nav-link" href="/login" style="color: black">Login </a>   
@@ -60,7 +61,7 @@
                     <div class="mt-4">
                         <div class="row">
                             {{#each products}}                   
-                                <div class="card" style="width: 15rem; align-items: center; background-color: rgba(236, 238, 93, 0.288)">
+                                <div class="card" style="width: 15rem; align-items: center; margin: 10px; background-color: rgba(236, 238, 93, 0.288)">
                                     <img src="{{picURL}}" class="card-img-top" style="width: 10rem; height: 10rem;" alt="..."> 
                                     <div class="card-body h-100">
                                         <a href="/inforProduct?id={{_id}}" style="color: rgb(29, 27, 27); font-size: 1.5rem;"><p class="card-text">{{name}}</p></a>

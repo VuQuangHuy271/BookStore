@@ -27,17 +27,11 @@ app.get('/inforProduct', async (req,res)=>{
 // })
 
 app.get('/lichsu', async (req,res)=>{
-    // const id = req.query.id
-    // // const collectionName = "Order"
-    // const results = await getlichsu("Order", id)
-    // res.render('lichsu', {Order : results})
-    const searchInput = req.query.txtSearch
-    const collectionName = "Order"
-    const results = await getlichsu(collectionName)
-    // const resultSearch = await FindAllDocumentsByName(searchInput)
-    res.render('lichsu', {Order : results})
-}) 
-
+    customer = req.session["Customer"]
+    const id = req.query.id
+    const results = await getlichsu("Order",id)
+    res.render('lichsu', {Order : results, customerI: customer})
+})
 app.get('/login', async (req,res)=>{
     res.render('login')
 })
