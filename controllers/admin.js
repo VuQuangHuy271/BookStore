@@ -63,6 +63,9 @@ router.get('/delete',async (req,res)=>{
         res.redirect('/admin/view')
     
 })
+router.get('/adminManagerCustomer', async (req,res)=>{
+    res.render('adminManagerCustomer')
+}) 
 router.get('/addBooks', async (req,res)=>{
     res.render('addBooks')
 }) 
