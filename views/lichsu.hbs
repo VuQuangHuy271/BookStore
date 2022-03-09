@@ -11,7 +11,7 @@
     <title>Lich su mua hang</title>
 </head>
 <body>
-            <div class="container"> 
+            {{!-- <div class="container"> 
                 <div class="Product">
                     <div class="mt-4">
                         <div class="row">
@@ -31,11 +31,41 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
+
+    <span style="color: red;">{{messS}}</span>
+    <table class="table table-bordered table-hover" >
+        <tr>
+            <th width='50px'>No</th>
+            <th>Name </th>
+            <th>Price</th>
+            <th>Author</th>
+            <th>Description</th>
+            <th width="150" >Image</th>
+            <th width='80px'>Edit</th>
+            
+        </tr>
+        <script language="javascript">
+                var num = 1;
+            </script>
+        {{#each Order}}            
+        <tr >
+            
+            <td><script language="javascript">
+                document.write(num++);
+            </script></td>
+            <td> {{Order.name}} </td>
+            <td>{{Order.price}} VND</td>
+            <td> {{Order.author}} </td>
+            <td>{{Order.description}}</td>
+            <td><img src="{{Order.picURL}}" alt="" width="150" height="100"></td>
+            <td><a href="editBooks?id={{_id}}">Edit</a></td>           
+        {{/each}}
+        </tr>
 
 
     
-    <div class="footer" style="background: rgba(15, 150, 204, 0.301);">
+    {{!-- <div class="footer" style="background: rgba(15, 150, 204, 0.301);">
         <!-- Footer -->
         <footer class="text-center text-lg-start bg-light text-muted">
             <!-- Section: Social media -->
@@ -133,7 +163,7 @@
         <!-- Copyright -->
         </footer>
         <!-- Footer -->
-    </div>
+    </div> --}}
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>

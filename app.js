@@ -3,7 +3,7 @@ const {ObjectId} = require('mongodb')
 const session = require('express-session')
 const app = express()
 
-const { insertObject ,getIndexDocuments, getAllDocuments, FindAllDocumentsByName, checkUserRole, FindDocumentsByEmail, FindDocumentsByPhone, FindDocumentsById, updateCollection} = require('./databaseHandler')
+const { insertObject ,getIndexDocuments,getlichsu, getAllDocuments, FindAllDocumentsByName, checkUserRole, FindDocumentsByEmail, FindDocumentsByPhone, FindDocumentsById, updateCollection} = require('./databaseHandler')
 app.set('view engine', 'hbs')
 app.use(express.urlencoded({ extended: true }))
 app.use(session({ secret: '12121121@adas', cookie: { maxAge: 60000 }, saveUninitialized: false, resave: false }))
@@ -27,10 +27,15 @@ app.get('/inforProduct', async (req,res)=>{
 // })
 
 app.get('/lichsu', async (req,res)=>{
-    const id = req.query.id
-    const results = await FindDocumentsById("Order", id)
+    // const id = req.query.id
+    // // const collectionName = "Order"
+    // const results = await getlichsu("Order", id)
+    // res.render('lichsu', {Order : results})
+    const searchInput = req.query.txtSearch
+    const collectionName = "Order"
+    const results = await getlichsu(collectionName)
+    // const resultSearch = await FindAllDocumentsByName(searchInput)
     res.render('lichsu', {Order : results})
-
 }) 
 
 app.get('/login', async (req,res)=>{
@@ -41,8 +46,6 @@ app.get("/logout", (req, res) => {
     req.session["Customer"] = null;
     res.redirect("/");
 });
-
-
 
 app.post('/login',async (req,res)=>{
     const emailInput = req.body.txtLName
