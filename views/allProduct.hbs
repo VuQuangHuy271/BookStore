@@ -62,9 +62,9 @@
                                     <div class="card-body h-100">
                                         <a href="/inforProduct?id={{_id}}" style="color: rgb(29, 27, 27); font-size: 1.5rem;"><p class="card-text">{{name}}</p></a>
                                     </div>
-                                    <div class="card-body">
+                                    {{!-- <div class="card-body">
                                         <a href="#"><p class="card-text">Mua Ngay</p></a>
-                                    </div>
+                                    </div> --}}
                                     <form action="/buy" method="post">
                                         <input type="hidden" name="txtId" value="{{_id}}">
                                         <button type="submit" class="btn btn-outline-success">Thêm Vào Giỏ Hàng</button>                                      

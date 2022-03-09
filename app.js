@@ -55,7 +55,7 @@ app.post('/login',async (req,res)=>{
             email: emailInput,
             role: role
         }
-        res.redirect('/allProduct')
+        res.redirect('/')
     }
 })
 
@@ -134,10 +134,7 @@ app.get('/', async (req,res)=>{
     }   
     
 })
-// app.get('/allProduct', async (req,res)=>{
-//     const results = await getAllDocuments("Products")
-//     res.render('allProduct', {products : results})
-// })
+
 
 app.get('/allProduct', async (req,res)=>{
     customer = req.session["Customer"]
@@ -226,7 +223,7 @@ app.post('/buy',requiresLoginCustomer, async (req,res)=>{
         req.session["cart"] = dict
         console.log(dict)
     }
-    res.redirect('/allProduct')
+    res.redirect('/')
 })
 app.get('/remove', async (req,res)=>{
     dict = req.session["cart"]
