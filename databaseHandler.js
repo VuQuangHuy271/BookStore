@@ -22,6 +22,13 @@ async function getIndexDocuments(collectionName) {
     return results
 }
 
+async function getlichsu(collectionName) {
+    const dbo = await getDatabase()
+    const results = await dbo.collection("Order").find({}).limit(20).toArray()   
+    // const results = await dbo.collection(collectionName).find({}).toArray()
+    return results
+}
+
 async function getAllDocuments(collectionName) {
     const dbo = await getDatabase()
     // const results = await dbo.collection("Products").find({}).sort({name:1}).limit(5).toArray()   
@@ -34,11 +41,7 @@ async function DeleteDocumentsByid(collectionName, id) {
     const results = await dbo.collection(collectionName).deleteOne({ _id: ObjectId(id)})
     return results
 }
-// async function FindDocumentsByid(collectionName, id) {
-//     const dbo = await getDatabase()
-//     const results = await dbo.collection(collectionName).findOne({ _id: ObjectId(id)})
-//     return results
-// }
+
 
 async function FindDocumentsById(collectionName, id) {
     const dbo = await getDatabase()
@@ -83,5 +86,5 @@ async function checkUserRole(emailI,passI){
     }
 }
 
-module.exports = {insertObject, getAllDocuments,FindAllDocumentsByName,DeleteDocumentsByid,updateCollection, checkUserRole, FindDocumentsByEmail, getIndexDocuments, FindDocumentsByPhone, FindDocumentsById}
+module.exports = {insertObject, getlichsu, getAllDocuments,FindAllDocumentsByName,DeleteDocumentsByid,updateCollection, checkUserRole, FindDocumentsByEmail, getIndexDocuments, FindDocumentsByPhone, FindDocumentsById}
 
