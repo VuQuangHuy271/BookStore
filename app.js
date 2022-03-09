@@ -26,6 +26,13 @@ app.get('/inforProduct', async (req,res)=>{
 //     res.render('allProduct', {products : results})
 // })
 
+app.get('/lichsu', async (req,res)=>{
+    const id = req.query.id
+    const results = await FindDocumentsById("Order", id)
+    res.render('lichsu', {Order : results})
+
+}) 
+
 app.get('/login', async (req,res)=>{
     res.render('login')
 })
