@@ -59,7 +59,8 @@
             <td> {{this.cart.cart.0.author}} </td>
             <td> {{this.cart.cart.0.description}}</td>
             <td><img src="{{this.cart.cart.0.picURL}}" alt="" width="150" height="100"></td>
-            {{!-- <td><a href="editBooks?id={{_id}}">Edit</a></td>            --}}
+            <td><a href="/">Home</a></td>
+            <td><a onclick="ConfirmDelete()" href="delete?id={{_id}}">Delete </a></td>
         {{/each}}
         </tr>
 
@@ -167,5 +168,17 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
 </body>
+<script>
+    function ConfirmDelete()
+{
+    var x = confirm("Are you sure you want to delete?");
+    if (x)
+        return true;
+    else
+    return false;
+}
+
+</script>
 </html>

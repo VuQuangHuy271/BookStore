@@ -24,7 +24,7 @@ async function getIndexDocuments(collectionName) {
 
 async function getlichsu(username) {
     const dbo = await getDatabase()
-    const results = await dbo.collection("Order").findOne({user: username})
+    const results = await dbo.collection("Order").find({}).sort({name:1}).limit(20).toArray()   
     return results
 }
 
