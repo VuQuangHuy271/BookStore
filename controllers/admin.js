@@ -41,15 +41,32 @@ router.post('/loginAdmin', async (req,res)=>{
 router.get('/addUser',(req,res)=>{
     res.render('addUser')
 })
-router.get('/updateProfile', async (req,res)=>{
-    res.render('updateProfile')
+router.get('/updateProfileAdmin', async (req,res)=>{
+    admin = req.session["Admin"]
+    const email = FindDocumentsByEmail(admin.email)
+    const results = FindDocumentsByEmail(email)
+    res.render('updateProfileAdmin', {profile: results, admin: admin})
+    // res.render('updateProfile')
 }) 
+router.post('/updateProfileADmin',requiresLoginAdmin, async (req,res)=>{
+    const nameUpdate = req.body.txtName
+    //lấy id để từ id đó sửa các giá trị khác
+    const email = req.body.txtEmail
+    const dbo = await FindDocumentsByEmail(email)
+    const myquery = { _id: ObjectId(dbo._id) }
+    const newUpdate = { $set: {name : nameUpdate, email: dbo.email,role: dbo.role,password: dbo.password}}
+    await updateCollection("Users", myquery, newUpdate)
+    res.redirect('/admin/view')
+})
 router.get('/delete',async (req,res)=>{
     const id = req.query.id
     DeleteDocumentsByid("Products", id)
         res.redirect('/admin/view')
     
 })
+router.get('/adminManagerCustomer', async (req,res)=>{
+    res.render('adminManagerCustomer')
+}) 
 router.get('/addBooks', async (req,res)=>{
     res.render('addBooks')
 }) 

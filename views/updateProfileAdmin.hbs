@@ -1,86 +1,78 @@
-
-<span style="color: red;">{{messS}}</span>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <title>Lich su mua hang</title>
+    <title>View Main</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css?version=3">
+
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+	<!-- Popper JS -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+    {{!-- <style type='text/css'>table {
+    counter-reset: rowNumber;
+    }
+    table tr {
+        counter-increment: rowNumber;
+    }
+
+    table tr td:first-child::before {
+        content: counter(rowNumber);
+        min-width: 1em;
+        margin-right: 0.5em;
+    } --}}
+</style>
 </head>
 <body>
-            {{!-- <div class="container"> 
-                <div class="Product">
-                    <div class="mt-4">
-                        <div class="row">
-                            {{#each Orders}}                   
-                                <div class="card" style="width: 15rem; align-items: center; background-color: rgba(236, 238, 93, 0.288)">
-                                    <img src="{{picURL}}" class="card-img-top" style="width: 10rem; height: 10rem;" alt="..."> 
-                                    <div class="card-body h-100">
-                                        <a href="/inforProduct?id={{_id}}" style="color: rgb(29, 27, 27); font-size: 1.5rem;"><p class="card-text">{{name}}</p></a>
-                                    </div>
-                                    <form action="/buy" method="post">
-                                        <input type="hidden" name="txtId" value="{{_id}}">
-                                        <button type="submit" class="btn btn-outline-success">Thêm Vào Giỏ Hàng</button>                                      
-                                    </form>
-                                </div>
-                            {{/each}}
-                            </div>
-                        </div>
-                    </div>
+    <ul class="nav nav-tabs">
+		<li class="nav-item">
+			<a class="nav-link active" href="view">View Product</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link " href="#">View User</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" href="#">View Order</a>
+		</li>
+		<li class="nav-item">
+            {{#if admin}}
+                <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"> {{admin.name}}: {{admin.role}}
+                    <span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                        <li><a href="updateProfileAdmin">Edit Profile</a></li>
+                        <li><a href="#">CSS</a></li>
+                        <li><a href="#">Log out</a></li>
+                    </ul>
                 </div>
-            </div> --}}
-
-    <span style="color: red;">{{messS}}</span>
-
-    <table class="table table-bordered table-hover" >
-        <tr>
-            <th width='50px'>No</th>
-            <th>Name </th>
-            <th>Price</th>
-            <th>Author</th>
-            <th>Description</th>
-            <th width="150" >Image</th>
-            {{!-- <th width='80px'>Edit</th> --}}
-            
-        </tr>
-        <script language="javascript">
-                var num = 1;
-            </script>
-        {{#each Order}}            
-        <tr >
-            
-            <td><script language="javascript">
-                document.write(num++);
-            </script></td>
-
-            <td> {{Order._id}} </td>
-            <td> {{Order.cart.price}} VND</td>
-            <td> {{this.cart.cart.0.author}} </td>
-            <td> {{this.cart.cart.0.description}}</td>
-            <td><img src="{{this.cart.cart.0.picURL}}" alt="" width="150" height="100"></td>
-            {{!-- <td><a href="editBooks?id={{_id}}">Edit</a></td>            --}}
-        {{/each}}
-        </tr>
-
-            <td> {{this.cart.cart.0.name}} </td>
-            <td> {{this.cart.cart.0.price}} VND</td>
-            <td> {{this.cart.cart.0.author}} </td>
-            <td> {{this.cart.cart.0.description}}</td>
-            <td><img src="{{this.cart.cart.0.picURL}}" alt="" width="150" height="100"></td>
-            <td><a href="/">Home</a></td>
-            <td><a onclick="ConfirmDelete()" href="delete?id={{_id}}">Delete </a></td>
-        {{/each}}
-        </tr>
-
-
-    
-    {{!-- <div class="footer" style="background: rgba(15, 150, 204, 0.301);">
+            {{/if}}
+        </li>
+	</ul>
+        <h2 style="text-align: center;" >Update Profile Admin</h2>
+    <div class="container">
+        <form action="updateProfileAdmin" method="post">
+            <div class="input-group input-group-sm mb-3">
+            <span class="input-group-text" id="inputGroup-sizing-sm">Name</span>
+            <input required="true" type="text" class="form-control" name="txtName" value="{{admin.name}}">
+        </div> 
+        <div class="input-group input-group-sm mb-3">
+            <span class="input-group-text" id="inputGroup-sizing-sm">Email address</span>
+            {{!-- <input required="true" type="text" class="form-control" name="txtEmail" value="{{oldValues.email}}"> --}}
+            <input required="true" type="email" class="form-control" placeholder="" name="txtEmail" value="{{admin.email}}">
+        </div>
+        <input type="submit" value="Update" class = "btn btn-success">
+        {{!-- <button type="button" class="btn btn-primary">Update Profile</button> --}}
+        </form>
+    </div>
+    <div class="footer">
         <!-- Footer -->
         <footer class="text-center text-lg-start bg-light text-muted">
             <!-- Section: Social media -->
@@ -92,6 +84,7 @@
                     <span>Get connected with us on social networks:</span>
                 </div>
                 <!-- Left -->
+
                 <!-- Right -->
                 <div>
                     <a href="" class="me-4 text-reset">
@@ -115,6 +108,9 @@
                 </div>
                 <!-- Right -->
             </section>
+            <!-- Section: Social media -->
+
+            <!-- Section: Links  -->
             <section class="">
                 <div class="container text-center text-md-start mt-5">
                     <!-- Grid row -->
@@ -130,6 +126,7 @@
                             dolor sit amet, consectetur adipisicing elit.
                         </p>
                         </div>
+
                         <!-- Grid column -->
                         <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
                         <!-- Links -->
@@ -150,6 +147,7 @@
                             </p>
                         </div>
                         <!-- Grid column -->
+
                         <!-- Grid column -->
                         <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
                         <!-- Links -->
@@ -170,6 +168,7 @@
                 </div>
             </section>
             <!-- Section: Links  -->
+
             <!-- Copyright -->
             <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
                 © 2021 Copyright:
@@ -178,22 +177,7 @@
         <!-- Copyright -->
         </footer>
         <!-- Footer -->
-    </div> --}}
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-
+    </div>
+        </div>
 </body>
-<script>
-    function ConfirmDelete()
-{
-    var x = confirm("Are you sure you want to delete?");
-    if (x)
-        return true;
-    else
-    return false;
-}
-
-</script>
 </html>
-

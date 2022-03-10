@@ -3,7 +3,7 @@ const {ObjectId} = require('mongodb')
 const session = require('express-session')
 const app = express()
 
-const { insertObject ,getIndexDocuments, getAllDocuments, FindAllDocumentsByName, checkUserRole, FindDocumentsByEmail, FindDocumentsByPhone, FindDocumentsById, updateCollection} = require('./databaseHandler')
+const { insertObject ,getIndexDocuments,getlichsu, getAllDocuments, FindAllDocumentsByName, checkUserRole, FindDocumentsByEmail, FindDocumentsByPhone, FindDocumentsById, updateCollection,DeleteDocumentsByid} = require('./databaseHandler')
 app.set('view engine', 'hbs')
 app.use(express.urlencoded({ extended: true }))
 app.use(session({ secret: '12121121@adas', cookie: { maxAge: 60000 }, saveUninitialized: false, resave: false }))
@@ -27,6 +27,12 @@ app.get('/inforProduct', async (req,res)=>{
 //     res.render('allProduct', {products : results})
 // })
 
+app.get('/lichsu', async (req,res)=>{
+    customer = req.session["Customer"]
+    const id = req.query.id
+    const results = await getlichsu("Order")
+    res.render('lichsu', {Order : results, customerI: customer})
+})
 app.get('/login', async (req,res)=>{
     res.render('login')
 })
@@ -35,8 +41,6 @@ app.get("/logout", (req, res) => {
     req.session["Customer"] = null;
     res.redirect("/");
 });
-
-
 
 app.post('/login',async (req,res)=>{
     const emailInput = req.body.txtLName
@@ -48,6 +52,7 @@ app.post('/login',async (req,res)=>{
     } else if (role == "Customer"){
         const results = await FindDocumentsByEmail(emailInput)
         req.session["Customer"] = {
+            // id: results._id,
             name: results.name,
             phone: results.phone,
             gender: results.gender,
@@ -56,7 +61,7 @@ app.post('/login',async (req,res)=>{
             email: emailInput,
             role: role
         }
-        res.redirect('/allProduct')
+        res.redirect('/')
     }
 })
 
@@ -135,10 +140,7 @@ app.get('/', async (req,res)=>{
     }   
     
 })
-// app.get('/allProduct', async (req,res)=>{
-//     const results = await getAllDocuments("Products")
-//     res.render('allProduct', {products : results})
-// })
+
 
 app.get('/allProduct', async (req,res)=>{
     customer = req.session["Customer"]
@@ -159,6 +161,13 @@ app.get('/allProduct', async (req,res)=>{
             res.render('allProduct', {products: results, messSH : messageSH, customerI: customer})
         }
     }   
+    
+})
+
+app.get('/delete',async (req,res)=>{
+    const id = req.query.id
+    DeleteDocumentsByid("Order", id)
+        res.redirect('/lichsu')
     
 })
 
@@ -202,6 +211,7 @@ app.post('/buy',requiresLoginCustomer, async (req,res)=>{
     if(!cart){
         let dict = {
             user: customer.name,
+            // id: customer._id,
             cart: [],
         }
             results.qty = 1;
@@ -227,7 +237,7 @@ app.post('/buy',requiresLoginCustomer, async (req,res)=>{
         req.session["cart"] = dict
         console.log(dict)
     }
-    res.redirect('/allProduct')
+    res.redirect('/')
 })
 app.get('/remove', async (req,res)=>{
     dict = req.session["cart"]

@@ -9,8 +9,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <title>Home</title>
-    <style>
-        
+    <style>  
     </style>
 </head>
 <body style="background-color: #c9dff182;">
@@ -37,10 +36,11 @@
                         <span class="caret"></span></button>
                         <ul class="dropdown-menu">
                             <li><a href="updateProfile">Edit Profile</a></li>
-                            <li><a href="#">CSS</a></li>
+                            <li><a href="lichsu">Lich su</a></li>
                             <li><a href="/logout">Log out</a></li>
                         </ul>
                         </div>
+                        
                         {{else}}
                             <form class="d-flex" >
                                 <a class="nav-link" href="/login" style="color: black">Login </a>   
@@ -61,18 +61,19 @@
                     <div class="mt-4">
                         <div class="row">
                             {{#each products}}                   
-                                <div class="card" style="width: 15rem; align-items: center; background-color: rgba(236, 238, 93, 0.288)">
+                                <div class="card" style="width: 15rem; align-items: center; margin: 10px; background-color: rgba(236, 238, 93, 0.288)">
                                     <img src="{{picURL}}" class="card-img-top" style="width: 10rem; height: 10rem;" alt="..."> 
                                     <div class="card-body h-100">
                                         <a href="/inforProduct?id={{_id}}" style="color: rgb(29, 27, 27); font-size: 1.5rem;"><p class="card-text">{{name}}</p></a>
                                     </div>
-                                    <div class="card-body">
+                                    {{!-- <div class="card-body">
                                         <a href="Cart"><p class="card-text">Mua Ngay</p></a>
-                                    </div>
+                                    </div> --}}
                                     <form action="/buy" method="post">
                                         <input type="hidden" name="txtId" value="{{_id}}">
                                         <button type="submit" class="btn btn-outline-success">Thêm Vào Giỏ Hàng</button>                                      
                                     </form>
+                                    
                                 </div>
                             {{/each}}
                                 <div class="card-body" style="text-align: center;">
@@ -184,13 +185,11 @@
         </footer>
         <!-- Footer -->
     </div>
-    
-    
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     
- <script type="text/javascript">
+<script type="text/javascript">
     $(document).ready(function(){
 
     $("#search").on("click", function(e){
