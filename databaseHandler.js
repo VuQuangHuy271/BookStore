@@ -1,3 +1,4 @@
+const async = require('hbs/lib/async');
 const {MongoClient,ObjectId} = require('mongodb');
 
 const DATABASE_URL = 'mongodb://Splace:Vuhuybn1@ass2-shard-00-00.6j7uj.mongodb.net:27017,ass2-shard-00-01.6j7uj.mongodb.net:27017,ass2-shard-00-02.6j7uj.mongodb.net:27017/test?replicaSet=atlas-3fflu9-shard-0&ssl=true&authSource=admin'
@@ -64,7 +65,6 @@ async function FindDocumentsByEmail(value) {
     return results
 }
 
-
 async function FindDocumentsByPhone(value) {
     const dbo = await getDatabase()
     const results = await dbo.collection("Users").findOne({phone: value})
@@ -83,5 +83,5 @@ async function checkUserRole(emailI,passI){
     }
 }
 
-module.exports = {insertObject, getAllDocuments,FindAllDocumentsByName,DeleteDocumentsByid,updateCollection, checkUserRole, FindDocumentsByEmail, getIndexDocuments, FindDocumentsByPhone, FindDocumentsById}
+module.exports = { insertObject, getAllDocuments,FindAllDocumentsByName,DeleteDocumentsByid,updateCollection, checkUserRole, FindDocumentsByEmail, getIndexDocuments, FindDocumentsByPhone, FindDocumentsById}
 

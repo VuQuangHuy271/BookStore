@@ -20,6 +20,7 @@ router.post('/loginAdmin', async (req,res)=>{
     } else if (role == "Staff"){
         const results = await FindDocumentsByEmail(emailInputA)
         req.session["Staff"] = {
+            id: results._id,
             name: results.name,
             email: emailInputA,
             role: role

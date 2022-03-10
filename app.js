@@ -11,6 +11,7 @@ app.use(express.static('public'))
 const adminController = require('./controllers/admin')
 const { redirect } = require('express/lib/response')
 const { all } = require('./controllers/admin')
+const async = require('hbs/lib/async')
 //cac request co chua /admin se di den controller admin
 app.use('/admin', adminController)
 
@@ -235,7 +236,7 @@ app.get('/remove', async (req,res)=>{
         if(dict.cart._id == id){
             console.log(dict.cart._id)
             dict.cart.splice(i,1)
-            res.redirect('cart')
+            return res.redirect('cart')
         }
     }    
 })

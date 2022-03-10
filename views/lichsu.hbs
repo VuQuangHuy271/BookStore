@@ -1,0 +1,29 @@
+<span style="color: red;">{{messS}}</span>
+    <table class="table table-bordered table-hover" >
+        <tr>
+            <th width='50px'>No</th>
+            <th>Name </th>
+            <th>Price</th>
+            <th>Author</th>
+            <th>Description</th>
+            <th width="150" >Image</th>
+            {{!-- <th width='80px'>Edit</th> --}}
+            
+        </tr>
+        <script language="javascript">
+                var num = 1;
+            </script>
+        {{#each Order}}            
+        <tr >
+            
+            <td><script language="javascript">
+                document.write(num++);
+            </script></td>
+            <td> {{Order._id}} </td>
+            <td> {{Order.cart.price}} VND</td>
+            <td> {{this.cart.cart.0.author}} </td>
+            <td> {{this.cart.cart.0.description}}</td>
+            <td><img src="{{this.cart.cart.0.picURL}}" alt="" width="150" height="100"></td>
+            {{!-- <td><a href="editBooks?id={{_id}}">Edit</a></td>            --}}
+        {{/each}}
+        </tr>
